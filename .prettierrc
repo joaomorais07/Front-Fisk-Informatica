@@ -1,0 +1,8 @@
+{
+  "printWidth": 130, // Define a largura máxima da linha
+  "singleQuote": true, // Use aspas simples em vez de aspas duplas
+  "jsxSingleQuote": true, // Use aspas simples em JSX
+  "trailingComma": "none", // Remova a vírgula final
+  "bracketSpacing": true, // Espaço entre colchetes
+  "jsxBracketSameLine": true // Coloca `>` do JSX na mesma linha que o último atributo
+}
