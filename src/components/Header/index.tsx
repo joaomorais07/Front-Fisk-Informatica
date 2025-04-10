@@ -1,7 +1,7 @@
 import { IoDocumentText } from "react-icons/io5";
 import { HeaderContainer, HeaderLogo, MenuSuspenso, NavHeader, Section, SectionMobile } from "./style";
 
-import { FaBarsStaggered, FaFileInvoiceDollar } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";

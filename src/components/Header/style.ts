@@ -1,26 +1,6 @@
 import { Link } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
-import { darkTheme } from "../../themes";
+import styled from "styled-components";
 
-const growAnimation = keyframes`
-  0% {
-    max-height: 0;
-  }
-
-  100% {
-    max-height: 264px;
-  }
-`;
-
-const shrinkAnimation = keyframes`
-  0% {
-    max-height: 264px;
-  }
-
-  100% {
-    max-height: 0;
-  }
-`;
 
 export const HeaderContainer = styled.div`
   position: relative;

@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { api } from "../../../services/api";
 import { ListaContainer, Status, Tabela } from "./style";
 import { AlunoData } from "../../../utils/types";
-import Input from "../../../components/Inputs/Input";
 import InputField from "../../../components/Inputs/InputField";
 
 

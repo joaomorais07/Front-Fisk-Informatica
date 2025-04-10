@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+// import { useState } from "react";
+// import { useLocation } from "react-router-dom";
 
 import { HomePageContainer } from "./style";
 
-import { useAuth } from "../../contexts/Auth";
+// import { useAuth } from "../../contexts/Auth";
 import BottomNav from "../../components/BottomNav";
 import Header from "../../components/Header";
 
 function HomePage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const user = useAuth().user;
-  const userLoading = useAuth().userLoading;
+  // const [isLoading, setIsLoading] = useState(true);
+  // const user = useAuth().user;
+  // const userLoading = useAuth().userLoading;
 
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <>

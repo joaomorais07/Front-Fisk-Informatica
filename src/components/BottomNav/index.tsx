@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { BottomNavContainer, Section, MenuSuspenso } from "./style";
-import { FaFileInvoiceDollar, FaUserCheck, FaUserPlus } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { IoDocumentText } from "react-icons/io5";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { MdOutlineExitToApp } from "react-icons/md";

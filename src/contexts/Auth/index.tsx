@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { createContext, useContext, ReactNode, useMemo, useEffect, useState } from "react";
-import { validateCpf, validateEmail, validateName, validatePassword } from "../../utils/validators";
-import { IUser, SignInData, SignUpErrors } from "./types";
+import { validateCpf} from "../../utils/validators";
+import { IUser, SignInData} from "./types";
 
 interface AuthContextType {
   user: IUser | undefined;
