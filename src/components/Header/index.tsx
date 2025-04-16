@@ -36,13 +36,13 @@ function Header() {
     <HeaderContainer>
       <SectionMobile>
         <HeaderLogo to="/">
-          <img className="fullLogo" src="/assets/images/Logo.png" alt="Logo" />
+          <img className="fullLogo" src="/Front-Fisk-Informatica/assets/images/Logo.png" alt="Logo" />
         </HeaderLogo>
       </SectionMobile>
 
       <Section>
         <HeaderLogo to="/">
-          <img className="fullLogo" src="/assets/images/Logo.png" alt="Logo" />
+          <img className="fullLogo" src="/Front-Fisk-Informatica/assets/images/Logo.png" alt="Logo" />
         </HeaderLogo>
 
         <NavHeader>
@@ -58,7 +58,7 @@ function Header() {
           </div>
 
           <div onClick={toggleMenu} ref={buttonRef}>
-            <img src="/assets/images/Foto_Perfil.png" alt="profile" />
+            <img src="/Front-Fisk-Informatica/assets/images/Foto_Perfil.png" alt="profile" />
 
             {isMenuOpen && (
               <MenuSuspenso ref={menuRef}>

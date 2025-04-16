@@ -12,7 +12,7 @@ function AuthPage(props: AuthPageProps) {
     <AuthPageContainer>
       <DivTopo>
         <a href="/">
-          <img src="/assets/images/Full_Logo.png" alt="Logo" />
+          <img src="/Front-Fisk-Informatica/assets/images/Full_Logo.png" alt="Logo" />
         </a>
       </DivTopo>
 

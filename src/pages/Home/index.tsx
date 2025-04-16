@@ -31,7 +31,7 @@ function HomePage() {
 
           <AlunoCard>
             <LeftSection>
-              <ProfileImage src="/assets/images/Foto_Perfil.png" alt="Ft perfil" />
+              <ProfileImage src="/Front-Fisk-Informatica/assets/images/Foto_Perfil.png" alt="Ft perfil" />
               <AlunoInfo>
                 <p>
                   <strong>Nome:</strong> Fabiana Santana

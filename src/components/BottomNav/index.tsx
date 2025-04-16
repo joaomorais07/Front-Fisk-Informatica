@@ -48,7 +48,7 @@ function BottomNav() {
         </div>
 
         <div onClick={toggleMenu} ref={buttonRef}>
-          <img src="/assets/images/Foto_Perfil.png" alt="profile" />
+          <img src="/Front-Fisk-Informatica/assets/images/Foto_Perfil.png" alt="profile" />
           <p>Você</p>
 
           {isMenuOpen && (
