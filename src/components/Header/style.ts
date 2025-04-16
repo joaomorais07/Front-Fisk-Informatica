@@ -10,6 +10,7 @@ export const HeaderContainer = styled.div`
   width: 100%;
   min-height: 72px;
   padding: 0 14px;
+  box-shadow: 0 1px 7px #45454582;
   background-color: ${({ theme }) => theme.colors.background};
   user-select: none;
 
@@ -48,8 +49,8 @@ export const Section = styled.div`
 export const NavHeader = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: end;
+  gap: 30px;
   width: 100%;
 
   div {
@@ -61,10 +62,11 @@ export const NavHeader = styled.div`
     cursor: pointer;
 
     p {
-      font-size: 14px;
+      font-size: 17px;
+      font-weight: 400;
     }
     img {
-      width: 35px;
+      width: 40px;
       border-radius: 50%;
     }
   }
@@ -82,7 +84,7 @@ export const MenuSuspenso = styled.ul`
   border: 1px solid ${({ theme }) => theme.colors.border || "#ccc"};
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  width: 200px;
+  width: 220px;
   padding: 10px 0;
   list-style: none;
   z-index: 10;

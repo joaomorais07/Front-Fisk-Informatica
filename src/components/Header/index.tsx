@@ -1,7 +1,4 @@
-import { IoDocumentText } from "react-icons/io5";
 import { HeaderContainer, HeaderLogo, MenuSuspenso, NavHeader, Section, SectionMobile } from "./style";
-
-import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";
@@ -50,18 +47,18 @@ function Header() {
 
         <NavHeader>
           <div>
-            <IoDocumentText size={35} />
+            <p>Home</p>
+          </div>
+          <div>
             <p>Boletim</p>
           </div>
 
           <div>
-            <FaFileInvoiceDollar size={35} />
             <p>Faturas</p>
           </div>
 
           <div onClick={toggleMenu} ref={buttonRef}>
             <img src="/assets/images/Foto_Perfil.png" alt="profile" />
-            <p>Você</p>
 
             {isMenuOpen && (
               <MenuSuspenso ref={menuRef}>
@@ -73,6 +70,12 @@ function Header() {
                   <Link to="/aluno">
                     <FaUserCog size={20} />
                     <span>Gerenciar Alunos</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/funcionario">
+                    <FaUserCog size={20} />
+                    <span>Gerenciar Funcionarios</span>
                   </Link>
                 </li>
                 <li>

@@ -3,6 +3,7 @@ import HomePage from "../pages/Home";
 import AuthPage from "../pages/Auth";
 // import { useAuth } from "../contexts/Auth";
 import AlunosPage from "../pages/Alunos";
+import FuncionarioPage from "../pages/Funcionarios";
 
 export function MyRoutes() {
   // const location = useLocation();
@@ -21,9 +22,14 @@ export function MyRoutes() {
       element: <AlunosPage />,
     },
     {
+      path: "/funcionario",
+      element: <FuncionarioPage />,
+    },
+    {
       path: "/cadastro",
       element: <AuthPage page="sign-up" />,
     },
+   
   ];
 
   return (
