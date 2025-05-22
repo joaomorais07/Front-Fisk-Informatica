@@ -26,7 +26,7 @@ export const StyledSelectField = styled.select`
   width: 100%;
   margin-top: 15px;
   background: transparent;
-  padding: 0.3rem 1.5rem 0.3rem 0.2rem; /* Ajuste o padding */
+  padding: 0.6rem 1.5rem 0.6rem 0.5rem;
   border: none;
   border-radius: 5px;
   border: 1px solid #ccc;

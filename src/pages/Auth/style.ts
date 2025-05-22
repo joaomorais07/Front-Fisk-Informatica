@@ -20,11 +20,10 @@ export const DivTopo = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  padding: 16px 24px;
   gap: 16px;
   
   img{
-    width: 150px;
+    width: 120px;
   }
 
 `;

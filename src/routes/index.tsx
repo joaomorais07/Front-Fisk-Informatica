@@ -1,78 +1,82 @@
-import {  Route, Routes } from "react-router-dom";
-import HomePage from "../pages/Home";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthPage from "../pages/Auth";
-// import { useAuth } from "../contexts/Auth";
 import AlunosPage from "../pages/Alunos";
 import FuncionarioPage from "../pages/Funcionarios";
+import { useAuth } from "../contexts/Auth";
+import TurmaPage from "../pages/Turmas";
+import ProfileSelect from "../pages/Home/ProfileSelect";
+import HomePage from "../pages/Home";
 
 export function MyRoutes() {
-  // const location = useLocation();
+  const { user } = useAuth();
 
   const routes = [
     {
       path: "/",
-      element: <HomePage />, 
+      element: <PrivateRoute element={<HomePage />} forUsers={["diretor", "professor", "secretario", "aluno", "responsavel"]} />,
     },
     {
       path: "/login",
-      element: <AuthPage page="sign-in" />,
+      element: user ? (
+        user.tipo === "Responsavel" ? (
+          <Navigate to="/selecionar-aluno" />
+        ) : (
+          <Navigate to="/" />
+        )
+      ) : (
+        <AuthPage page="sign-in" />
+      ),
     },
+
+    {
+      path: "/selecionar-aluno",
+      element: <ProfileSelect /> ,
+    },
+
     {
       path: "/aluno",
       element: <AlunosPage />,
     },
     {
       path: "/funcionario",
-      element: <FuncionarioPage />,
+      element: <PrivateRoute element={<FuncionarioPage />} forUsers={["diretor", "secretario"]} />,
     },
     {
-      path: "/cadastro",
-      element: <AuthPage page="sign-up" />,
+      path: "/turma",
+      element: <PrivateRoute element={<TurmaPage />} forUsers={["diretor", "secretario"]} />,
     },
-   
+    {
+      path: "/login/administracao",
+      element: user ? <Navigate to="/" /> : <AuthPage page="sign-in_adm" />,
+    },
   ];
 
   return (
-    <>
-      <Routes>
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-      </Routes>
-    </>
+    <Routes>
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+    </Routes>
   );
 }
 
-// type PrivateRouteProps = {
-//   element: JSX.Element;
-//   forUsers: string[];
-// };
+type PrivateRouteProps = {
+  element: JSX.Element;
+  forUsers: string[];
+};
 
-// function PrivateRoute({ element, forUsers }: PrivateRouteProps) {
-//   const { user } = useAuth();
+function PrivateRoute({ element, forUsers }: PrivateRouteProps) {
+  const { user } = useAuth();
 
-//   // Se o usuário não estiver logado, redireciona para a página de eventos
-//   if (!user) {
-//     return <Navigate to="/" />;
-//   }
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
-//   const isAdminRoute = forUsers.includes("admin");
+  const tipo = user?.tipo?.toLowerCase();
 
-//   // Se o usuário é administrador, permite o acesso a rotas admin
-//   if (isAdminRoute && user.administrador) {
-//     return element;
-//   }
+  if (tipo && forUsers.includes(tipo)) {
+    return element;
+  }
 
-//   // Se a rota não é admin e o usuário não é administrador, permite o acesso
-//   if (!isAdminRoute && !user.administrador) {
-//     return element;
-//   }
-
-//   // Se a rota não é admin e o usuário é administrador, permite o acesso
-//   if (!isAdminRoute && user.administrador) {
-//     return element;
-//   }
-
-//   // Usuário não autorizado tenta acessar uma rota restrita, redireciona para eventos
-//   return <Navigate to="/" />;
-// }
+  return <Navigate to="/" />;
+}

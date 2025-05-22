@@ -10,10 +10,10 @@ import ReactDOM from "react-dom/client";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider theme={darkTheme}>
     <BrowserRouter basename="/Front-Fisk-Informatica/">
-       <AuthProvider>
+      <AuthProvider>
         <GlobalStyle />
         <App />
-      </AuthProvider> 
+      </AuthProvider>
     </BrowserRouter>
   </ThemeProvider>
 );

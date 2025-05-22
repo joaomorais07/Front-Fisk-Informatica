@@ -7,7 +7,7 @@ export interface SelectFieldProps {
 }
 
 export interface AlunoData {
-  id_aluno: string | null
+  id_aluno: string | null;
   nome_aluno: string;
   telefone_aluno: string | null;
   cpf_aluno: string | null;
@@ -17,6 +17,7 @@ export interface AlunoData {
   status_matricula: string;
   id_responsavel: string | null;
   id_endereco: string;
+  foto_aluno: string | null;
 
   responsavel: {
     id_responsavel: string | null;
@@ -36,4 +37,26 @@ export interface EderecoData {
   rua: string | null;
   povoado: string | null;
   numero: string | null;
+}
+
+export interface TurmaData {
+  id_turma: string | null;
+  nome_turma: string | null;
+  curso: string;
+  data_inicio: string;
+  dia_semana: string;
+  turno: string;
+  total_alunos: number;
+  horario: string | null;
+  status: string;
+  observacao: string | null;
+}
+
+export interface DiretoData {
+  id_diretor: string;
+  nome_diretor: string;
+  cpf_diretor: string;
+  telefone_diretor: string | null;
+  foto_diretor: string | null;
+  data_nascimento: string;
 }

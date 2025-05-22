@@ -77,27 +77,6 @@ export const StudentList = styled.div`
   }
 `;
 
-export const InputCheckbox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0;
-
-  input {
-    width: 18px;
-    height: 18px;
-    accent-color: #007bff; /* Cor azul para o checkbox */
-    cursor: pointer;
-  }
-
-  label {
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-    cursor: pointer;
-  }
-`;
-
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -141,55 +120,5 @@ export const DivSecao = styled.div`
 
   @media (max-width: 668px) {
     grid-template-columns: 1fr;
-  }
-`;
-
-export const AutoCompleteWrapper = styled.div`
-  position: relative;
-  width: 100%;
-
-  label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-
-    &:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-  }
-
-  .suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    max-height: 200px;
-    overflow-y: auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    margin-top: 0.25rem;
-  }
-
-  .suggestion-item {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background-color: #f2f2f2;
-    }
   }
 `;

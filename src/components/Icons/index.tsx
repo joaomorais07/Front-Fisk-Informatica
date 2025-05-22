@@ -6,8 +6,8 @@ import { useTheme } from "styled-components";
 
 
 const iconsMap = {
-  aluno: aluno,
-  responsavel: responsavel,
+  Aluno: aluno,
+  Responsavel: responsavel,
 
 };
 

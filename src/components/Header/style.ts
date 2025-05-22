@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-
 export const HeaderContainer = styled.div`
   position: relative;
   display: flex;
@@ -29,12 +28,10 @@ export const HeaderLogo = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   text-transform: uppercase;
-  
-  img{
+
+  img {
     width: 100px;
   }
-
-
 `;
 
 export const Section = styled.div`
@@ -53,6 +50,10 @@ export const NavHeader = styled.div`
   gap: 30px;
   width: 100%;
 
+  a.active p {
+    border-bottom: 2px solid ${({ theme }) => theme.colors.secundary || "#1e90ff"};
+  }
+
   div {
     position: relative;
     display: flex;
@@ -67,6 +68,7 @@ export const NavHeader = styled.div`
     }
     img {
       width: 40px;
+      height: 40px;
       border-radius: 50%;
     }
   }
@@ -113,19 +115,18 @@ export const MenuSuspenso = styled.ul`
   }
 `;
 
-
 export const SectionMobile = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 
-  svg{
+  svg {
     border-radius: 50%;
     padding: 5px;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
       background-color: rgb(48, 48, 48);
     }
   }
@@ -133,4 +134,3 @@ export const SectionMobile = styled.div`
     display: none;
   }
 `;
-

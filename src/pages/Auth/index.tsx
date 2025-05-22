@@ -1,12 +1,18 @@
-import { SignInForm } from "./Forms";
+import { useEffect } from "react";
+import { SignInForm, SignInFormAdm } from "./Forms";
 import { AuthPageContainer, DivTopo } from "./style";
 
 type AuthPageProps = {
-  page: "sign-in" | "sign-up" | "forgot-password";
+  page: "sign-in" | "sign-in_adm";
 };
+
 
 function AuthPage(props: AuthPageProps) {
   const { page } = props;
+
+  useEffect(() => {
+    console.log(page); 
+  }, [page]);
 
   return (
     <AuthPageContainer>
@@ -17,6 +23,7 @@ function AuthPage(props: AuthPageProps) {
       </DivTopo>
 
       {page === "sign-in" && <SignInForm />}
+      {page === "sign-in_adm" && <SignInFormAdm />}
     </AuthPageContainer>
   );
 }

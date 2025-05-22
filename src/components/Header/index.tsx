@@ -1,20 +1,41 @@
 import { HeaderContainer, HeaderLogo, MenuSuspenso, NavHeader, Section, SectionMobile } from "./style";
 import { LiaUserEditSolid } from "react-icons/lia";
-import { Link } from "react-router-dom";
-import { FaUserCog } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { MdOutlineExitToApp } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../contexts/Auth";
+import { fetchUserData } from "../../utils/fetchUserData";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLUListElement | null>(null); // Ref para o menu suspenso
-  const buttonRef = useRef<HTMLDivElement | null>(null); // Ref para o div do botão
+  const menuRef = useRef<HTMLUListElement | null>(null);
+  const buttonRef = useRef<HTMLDivElement | null>(null);
+  const { user, alunoSelecionado, signOut } = useAuth();
+  const location = useLocation();
+  const [profileImage, setProfileImage] = useState("/Front-Fisk-Informatica/assets/profile/default.png");
+ 
+  const tipoUsuario = user?.tipo?.toLowerCase(); // "aluno", "responsavel", "diretor", "professor", "secretario"
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const fetched = await fetchUserData({
+        tipo: tipoUsuario,
+        id: user?.dados.id,
+        alunoSelecionadoId: alunoSelecionado?.id,
+      });
+
+      if (fetched) {
+        setProfileImage(fetched.imagemUrl);
+      }
+    };
+
+    getUserData();
+  }, [user?.dados.id, alunoSelecionado?.id]);
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
-  // Fechar o menu ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -32,6 +53,9 @@ function Header() {
     };
   }, []);
 
+  const isAlunoOuResponsavel = tipoUsuario === "aluno" || tipoUsuario === "responsavel";
+  const isFuncionario = tipoUsuario === "diretor" || tipoUsuario === "professor" || tipoUsuario === "secretario";
+
   return (
     <HeaderContainer>
       <SectionMobile>
@@ -46,19 +70,40 @@ function Header() {
         </HeaderLogo>
 
         <NavHeader>
-          <div>
+          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
             <p>Home</p>
-          </div>
-          <div>
-            <p>Boletim</p>
-          </div>
+          </Link>
 
-          <div>
-            <p>Faturas</p>
-          </div>
+          {isAlunoOuResponsavel && (
+            <>
+              <Link to="/boletim" className={location.pathname === "/boletim" ? "active" : ""}>
+                <p>Boletim</p>
+              </Link>
+              <Link to="/faturas" className={location.pathname === "/faturas" ? "active" : ""}>
+                <p>Faturas</p>
+              </Link>
+              <Link to="/frequencia" className={location.pathname === "/frequencia" ? "active" : ""}>
+                <p>Frequência</p>
+              </Link>
+            </>
+          )}
+
+          {isFuncionario && (
+            <>
+              <Link to="/aluno" className={location.pathname === "/aluno" ? "active" : ""}>
+                <p>Alunos</p>
+              </Link>
+              <Link to="/funcionario" className={location.pathname === "/funcionario" ? "active" : ""}>
+                <p>Funcionários</p>
+              </Link>
+              <Link to="/turma" className={location.pathname === "/turma" ? "active" : ""}>
+                <p>Turmas</p>
+              </Link>
+            </>
+          )}
 
           <div onClick={toggleMenu} ref={buttonRef}>
-            <img src="/Front-Fisk-Informatica/assets/images/Foto_Perfil.png" alt="profile" />
+            <img src={profileImage} alt="profile" />
 
             {isMenuOpen && (
               <MenuSuspenso ref={menuRef}>
@@ -66,19 +111,7 @@ function Header() {
                   <LiaUserEditSolid size={20} />
                   <span>Meus Dados</span>
                 </li>
-                <li>
-                  <Link to="/aluno">
-                    <FaUserCog size={20} />
-                    <span>Gerenciar Alunos</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/funcionario">
-                    <FaUserCog size={20} />
-                    <span>Gerenciar Funcionarios</span>
-                  </Link>
-                </li>
-                <li>
+                <li onClick={signOut}>
                   <MdOutlineExitToApp size={20} />
                   <span>Sair</span>
                 </li>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { darkTheme } from "../../../themes";
 
 export const AuthFormContainer = styled.div`
   display: grid;
@@ -15,7 +16,7 @@ export const AuthForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: min(100%, 500px);
-  padding: 36px min(6%, 48px) 48px;
+  padding: min(3vh, 36px) min(6%, 48px);
   gap: 16px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 5px;
@@ -30,7 +31,6 @@ export const AuthForm = styled.form`
     font-size: 14px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
-    margin-bottom: 24px;
   }
 
   span {
@@ -61,7 +61,6 @@ export const AuthFormLink = styled.div`
   }
 `;
 
-
 export const DivInputPassword = styled.div`
   display: flex;
   width: 100%;
@@ -87,13 +86,19 @@ export const UserSelector = styled.div`
   align-items: center;
   gap: 12px;
   margin-bottom: 16px;
+
+  .DivAdm {
+    background-color: ${darkTheme.colors.secundary};
+    margin: auto;
+    border-radius: 4px;
+    padding: 8px 16px;
+    width: 150px;
+  }
 `;
 
 export const UserOption = styled.button<{ isSelected: boolean }>`
-  background-color: ${({ isSelected, theme }) =>
-    isSelected ? theme.colors.primary : theme.colors.background};
-  color: ${({ isSelected, theme }) =>
-    isSelected ? theme.colors.textAlt : theme.colors.text};
+  background-color: ${({ isSelected, theme }) => (isSelected ? theme.colors.primary : theme.colors.background)};
+  color: ${({ isSelected, theme }) => (isSelected ? theme.colors.textAlt : theme.colors.text)};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 4px;
   padding: 8px 16px;

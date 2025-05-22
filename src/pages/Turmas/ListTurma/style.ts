@@ -51,54 +51,15 @@ export const Status = styled.span<{ status: string }>`
   color: white;
   background: ${({ status }) => {
     switch (status) {
-      case "Ativo":
-        return "green";
-      case "Não Matriculado":
+      case "Aberta":
+        return "#004eff";
+      case "Em Progresso":
+        return "#ff9900";
+      case "Concluída":
+        return "#1bad1b";
+      case "Desconhecido":
         return "gray";
-      case "Trancado":
-        return "orange";
-      case "Cancelado":
-        return "red";
-      case "Finalizado":
-        return "blue";
-      case "Pendente":
-        return "purple";
-      default:
-        return "black";
     }
   }};
-`;
-
-export const Options = styled.div`
-  width: 100%;
-  display: flex;
-  position: sticky;
-  bottom: 0;
-  background-color: #fff;
-  padding: 12px 24px;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  border-top: 1px solid ${darkTheme.colors.secundary};
-  z-index: 10;
-  
-
-  button {
-    background: #f1f1f1;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background 0.3s;
-
-    &:hover {
-      background: #e0e0e0;
-    }
-
-    svg {
-      vertical-align: middle;
-    }
-  }
 `;
 

@@ -59,13 +59,9 @@ function FuncionarioPage() {
         <Actions>
           <ActionButton onClick={() => setIsDialogOpen(true)}>
             <BiUserPlus size={20} />
-            <span>Cadastrar Aluno</span>
+            <span>Cadastrar Funcionario</span>
           </ActionButton>
-          <ActionButton>
-            <BiUserCheck size={20} />
-            <span>Matricular Aluno</span>
-          </ActionButton>
-          
+  
         </Actions>
 
         {/* Modal de Cadastro */}
@@ -76,7 +72,7 @@ function FuncionarioPage() {
                 <ContainerInput>
                   {/* Seção de Dados do Aluno */}
                   <DivSecao>
-                    <h1>Dados do Aluno</h1>
+                    <h1>Dados do Funcionario</h1>
                     <InputField type="text" label="Nome Completo:" {...register("nome_aluno", { required: true })} />
                     <InputMask label="Telefone" mask="(99)99999-9999" onChange={(e) => setValue("telefone_aluno", e.target.value)} />
                     <InputMask label="CPF" mask="999.999.999-99" onChange={(e) => setValue("cpf_aluno", e.target.value)} />
