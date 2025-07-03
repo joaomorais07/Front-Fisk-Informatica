@@ -1,6 +1,5 @@
 import { HomePageContainer, Container, WelcomeSection } from "./style";
 import Header from "../../components/Header";
-import BottomNav from "../../components/BottomNav";
 import { useAuth } from "../../contexts/Auth";
 import AlunoDetails from "./Details/alunoDetail";
 import DiretorDetails from "./Details/diretorDetail";
@@ -42,7 +41,6 @@ function HomePage() {
           {renderUserContent()}
         </Container>
       </HomePageContainer>
-      <BottomNav />
     </>
   );
 }

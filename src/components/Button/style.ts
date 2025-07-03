@@ -16,7 +16,7 @@ export const StyledButton = styled.button<ButtonProps>`
   width: ${({ width }) => width ?? "100%"};
   min-height: ${({ height }) => height ?? "32px"};
   height: ${({ height }) => height ?? "32px"};
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.secundary};
   color: ${darkTheme.colors.textAlt};
   border-radius: 4px;
   opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};

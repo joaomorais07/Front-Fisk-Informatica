@@ -7,7 +7,7 @@ export interface SelectFieldProps {
 }
 
 export interface AlunoData {
-  id_aluno: string | null;
+  id_aluno: number | null;
   nome_aluno: string;
   telefone_aluno: string | null;
   cpf_aluno: string | null;
@@ -17,6 +17,8 @@ export interface AlunoData {
   status_matricula: string;
   id_responsavel: string | null;
   id_endereco: string;
+  id_turma: string | null;
+  id_cliente: string | null;
   foto_aluno: string | null;
 
   responsavel: {
@@ -25,6 +27,13 @@ export interface AlunoData {
     cpf_responsavel: string | null;
     telefone_responsavel: string | null;
   };
+
+  curso: [
+    {
+      nome_curso: string | null;
+      progresso_curso: number | null;
+    }
+  ];
 
   endereco: EderecoData;
 }
@@ -41,7 +50,7 @@ export interface EderecoData {
 
 export interface TurmaData {
   id_turma: string | null;
-  nome_turma: string | null;
+  nome_turma: string;
   curso: string;
   data_inicio: string;
   dia_semana: string;
@@ -59,4 +68,35 @@ export interface DiretoData {
   telefone_diretor: string | null;
   foto_diretor: string | null;
   data_nascimento: string;
+}
+
+
+export interface IParcela {
+  id: number;
+  valor: number;
+  vencimento: string; // formato "YYYY-MM-DD"
+  status: string;
+  link_pagamento?: string | null;
+  pix_copia_cola?: string | null;
+  pix_qr_base64?: string | null;
+  url_fatura?: string | null;
+  url_boleto_pdf?: string | null;
+  parcela_numero?: number | null;
+}
+
+export interface IAssinatura {
+  id: number;
+  nome_plano: string;
+  data_inicio: string; // formato "YYYY-MM-DD"
+  total_parcelas: number;
+  parcelas: IParcela[];
+}
+
+export interface IClienteData {
+  id_cliente: number;
+  id_aluno: number;
+  nome: string;
+  cpf: string;
+  data_nascimento: string; // formato "YYYY-MM-DD"
+  assinaturas?: IAssinatura[];
 }

@@ -17,7 +17,7 @@ export const GeneralLoadingContainer = styled.div<GeneralLoadingContainerProps>`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,10 +29,10 @@ export const GeneralLoadingContainer = styled.div<GeneralLoadingContainerProps>`
     width: ${({ size }) => `${size}px`} !important;
     height: ${({ size }) => `${size}px`} !important;
     border-radius: 50% !important;
-    border-top: 5px solid ${({ color, theme }) => color ?? theme.colors.primary};
-    border-right: 5px solid
-      ${({ color, theme }) => color ?? theme.colors.primary};
-    border-bottom: 5px solid transparent;
+    border-top: 6px solid ${({ color, theme }) => color ?? theme.colors.secundary};
+    border-right: 6px solid
+      ${({ color, theme }) => color ?? theme.colors.secundary};
+    border-bottom: 7px solid transparent;
 
     animation: ${spin} 1s linear infinite;
   }

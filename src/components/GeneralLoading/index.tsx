@@ -7,7 +7,7 @@ type GeneralLoadingProps = {
 
 function GeneralLoading({ size, color }: GeneralLoadingProps) {
   return (
-    <GeneralLoadingContainer size={size ?? 20} color={color}>
+    <GeneralLoadingContainer size={size ?? 45} color={color}>
       <span />
     </GeneralLoadingContainer>
   );

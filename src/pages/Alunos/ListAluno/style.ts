@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { darkTheme } from "../../../themes";
 
-
 export const ListaContainer = styled.div`
   width: 100%;
   margin: 20px auto;
@@ -29,9 +28,27 @@ export const Tabela = styled.table`
   border-radius: 8px;
   overflow: hidden;
 
-  th, td {
+  th,
+  td {
     padding: 10px;
     text-align: left;
+    word-break: break-word;
+  }
+
+  .tdOptions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      padding: 5px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      &:hover {
+        background: #666;
+      }
+    }
   }
 
   th {
@@ -42,26 +59,127 @@ export const Tabela = styled.table`
   tbody tr:nth-child(even) {
     background: rgba(255, 255, 255, 0.05);
   }
+
+  .search-row {
+    display: table-row;
+  }
+
+  .table-header {
+    display: table-row;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+
+    thead {
+      display: block;
+
+      tr {
+        display: block;
+        margin-bottom: 10px;
+
+        th {
+          display: block;
+          text-align: left;
+          padding: 8px;
+          background: none;
+          color: ${darkTheme.colors.text};
+        }
+
+        &:last-child {
+          display: none; // Esconde os cabeçalhos fixos da tabela
+        }
+      }
+    }
+
+    tbody {
+      display: block;
+    }
+
+    tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+      background: ${darkTheme.colors.textAlt};
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border: none;
+      align-items: center;
+    }
+
+    td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      margin-right: 10px;
+      color: ${darkTheme.colors.text};
+    }
+  }
+`;
+
+export const InputSearchWrapper = styled.div`
+  margin-bottom: 16px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+`;
+
+export const PageButton = styled.button<{ active?: boolean }>`
+  background-color: ${({ active }) => (active ? darkTheme.colors.secundary : "#e0e0e0")};
+  color: ${({ active }) => (active ? "white" : "#333")};
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: ${({ active }) => (active ? darkTheme.colors.secundary : "#ccc")};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 export const Status = styled.span<{ status: string }>`
-  padding: 5px 10px;
+  padding: 2px 5px;
   border-radius: 5px;
-  font-weight: bold;
   color: white;
   background: ${({ status }) => {
     switch (status) {
-      case "Ativo":
+      case "A":
         return "green";
-      case "Não Matriculado":
+      case "N":
         return "gray";
-      case "Trancado":
+      case "T":
         return "orange";
-      case "Cancelado":
+      case "C":
         return "red";
-      case "Finalizado":
+      case "F":
         return "blue";
-      case "Pendente":
+      case "P":
         return "purple";
       default:
         return "black";
@@ -81,7 +199,6 @@ export const Options = styled.div`
   gap: 16px;
   border-top: 1px solid ${darkTheme.colors.secundary};
   z-index: 10;
-  
 
   button {
     background: #f1f1f1;
@@ -102,3 +219,10 @@ export const Options = styled.div`
   }
 `;
 
+export const DivStatus = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+`;

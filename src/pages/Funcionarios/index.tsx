@@ -22,7 +22,7 @@ import { darkTheme } from "../../themes";
 import { AlunoData } from "../../utils/types";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
-import BottomNav from './../../components/BottomNav/index';
+
 
 function FuncionarioPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -134,7 +134,6 @@ function FuncionarioPage() {
         )}
 
       </ContainerAluno>
-      <BottomNav />
     </>
   );
 }

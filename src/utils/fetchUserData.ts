@@ -11,10 +11,24 @@ interface FetchedUser {
   imagemUrl: string;
 }
 
-export async function fetchUserData({ tipo, id, alunoSelecionadoId }: FetchUserDataParams): Promise<FetchedUser | null> {
+export async function fetchUserData({
+  tipo,
+  id,
+  alunoSelecionadoId,
+}: FetchUserDataParams): Promise<FetchedUser | null> {
   if (!tipo || !id) return null;
 
   try {
+    const key = `${tipo}-${id}`;
+    const cachedImage = localStorage.getItem(`imagemUrl-${key}`);
+
+    if (cachedImage) {
+      return {
+        data: {}, // ou null se você quiser garantir que os dados venham da API
+        imagemUrl: cachedImage,
+      };
+    }
+
     let response;
     let imagemUrl = "/Front-Fisk-Informatica/assets/profile/default.png";
 
@@ -48,6 +62,9 @@ export async function fetchUserData({ tipo, id, alunoSelecionadoId }: FetchUserD
       default:
         return null;
     }
+
+    // ✅ Salva a imagem no localStorage
+    localStorage.setItem(`imagemUrl-${key}`, imagemUrl);
 
     return {
       data: response.data,

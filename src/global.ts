@@ -128,9 +128,14 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const GlobalContainer = styled.div`
+  display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-height: 100vh;
+  height: max-content; // Adicione esta linha
+  margin: 0;
+  padding: 0;
   background-color: #ffffff;
 `;

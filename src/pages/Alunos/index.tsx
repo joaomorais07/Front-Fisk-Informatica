@@ -23,7 +23,6 @@ import { AlunoData } from "../../utils/types";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import AlunosList from "./ListAluno";
-import BottomNav from "../../components/BottomNav";
 import { SearchInput } from "../../components/Inputs/InputSearch";
 import Swal from "sweetalert2";
 import { LuCopy } from "react-icons/lu";
@@ -364,7 +363,6 @@ function AlunosPage() {
 
         <AlunosList />
       </ContainerAluno>
-      <BottomNav />
     </>
   );
 }

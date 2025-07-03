@@ -1,18 +1,18 @@
-// src/pages/Home/Details/alunoDetail.tsx
-
 import { useEffect, useState } from "react";
 import { BsBellFill } from "react-icons/bs";
 import {
-  AlunoCard,
-  LeftSection,
+  AlunoContainer,
+  ProfileSection,
   ProfileImage,
-  RightSection,
-  AlunoInfo,
-  ExtraInfo,
-  AvisoCard,
-  EventsSection,
-  EventCard,
-} from "./stylesDetail";
+  ProfileInfo,
+  MainContent,
+  InfoCard,
+  AvisosSection,
+  CursosSection,
+  SectionTitle,
+  Divider,
+  StatusBadge,
+} from "./stylesAluno";
 import { api } from "../../../services/api";
 import { AlunoData } from "../../../utils/types";
 
@@ -23,11 +23,30 @@ interface AlunoDetailsProps {
 export default function AlunoDetails({ idAluno }: AlunoDetailsProps) {
   const [aluno, setAluno] = useState<AlunoData | null>(null);
 
+  function traduzirStatus(status: string) {
+    switch (status) {
+      case "N":
+        return "Não Matriculado";
+      case "A":
+        return "Ativo";
+      case "T":
+        return "Trancado";
+      case "C":
+        return "Cancelado";
+      case "F":
+        return "Finalizado";
+      case "P":
+        return "Pendente";
+      default:
+        return "Desconhecido";
+    }
+  }
+
   useEffect(() => {
     async function fetchAluno() {
       try {
         const response = await api.get(`/alunos/${idAluno}`);
-        console.log("Aluno:", response.data);
+        console.log("Dados do aluno:", response.data);
         setAluno(response.data);
       } catch (error) {
         console.error("Erro ao buscar aluno:", error);
@@ -40,44 +59,68 @@ export default function AlunoDetails({ idAluno }: AlunoDetailsProps) {
   if (!aluno) return <p>Carregando dados do aluno...</p>;
 
   return (
-    <AlunoCard>
-      <LeftSection>
-        <ProfileImage
-          src={aluno.foto_aluno || "/Front-Fisk-Informatica/assets/profile/default.png"}
-          alt="Foto de perfil"
-        />
-        <AlunoInfo>
-          <p><strong>Nome:</strong> {aluno.nome_aluno}</p>
-          <p><strong>Curso:</strong>Informatica</p>
-          <p><strong>Status:</strong> {aluno.status_matricula}</p>
-        </AlunoInfo>
-      </LeftSection>
+    <AlunoContainer>
+      <ProfileSection>
+        <ProfileImage src={aluno.foto_aluno || "/Front-Fisk-Informatica/assets/profile/default.png"} alt="Foto de perfil" />
+        <ProfileInfo>
+          <h2>{aluno.nome_aluno}</h2>
+          <div className="info-row">
+            <span className="label">Curso:</span>
+            <span className="value">
+              {aluno.curso && aluno.curso.length > 0
+                ? aluno.curso.map((curso, index) => (
+                    <span key={index}>
+                      {curso.nome_curso?.toUpperCase() ?? "CURSO DESCONHECIDO"}
+                      {index < aluno.curso.length - 1 && ", "}
+                    </span>
+                  ))
+                : "Curso desconhecido"}
+            </span>
+          </div>
+          <div className="info-row">
+            <span className="label">Status:</span>
+            <StatusBadge status={aluno.status_matricula}>{traduzirStatus(aluno.status_matricula)}</StatusBadge>
+          </div>
+        </ProfileInfo>
+      </ProfileSection>
 
-      <RightSection>
-        <ExtraInfo>
-          <h1>
-            Avisos <BsBellFill />
-          </h1>
-          <div className="divider" />
-          {/* {aluno.avisos.map((aviso, index) => (
-            <AvisoCard key={index}>
-              <p>{aviso}</p>
-            </AvisoCard>
-          ))} */}
-        </ExtraInfo>
-      </RightSection>
+      <MainContent>
+        <InfoCard>
+          <AvisosSection>
+            <SectionTitle>
+              <BsBellFill />
+              <span>Avisos</span>
+            </SectionTitle>
+            <Divider />
 
-      <EventsSection>
-        <h2>Cursos em andamento</h2>
-        <div className="cards">
-          {/* {aluno.cursos.map((curso, index) => (
-            <EventCard key={index}>
-              <h3>{curso.nome}</h3>
-              <p>Progresso: {curso.progresso}%</p>
-            </EventCard>
-          ))} */}
-        </div>
-      </EventsSection>
-    </AlunoCard>
+            <div className="aviso-item">
+              <p>📌 Prova de Excel será na próxima terça-feira às 14h.</p>
+            </div>
+            <div className="aviso-item">
+              <p>📝 Entrega do trabalho de PowerPoint até sexta-feira.</p>
+            </div>
+          </AvisosSection>
+        </InfoCard>
+
+        <CursosSection>
+          <SectionTitle>Cursos em Andamento</SectionTitle>
+          <Divider />
+          <div className="cursos-grid">
+            {aluno.curso.map((curso, index) => (
+              <div key={index} className="curso-card">
+                <section className="curso-header">
+                  <strong>Curso: </strong>
+                  <h3>{curso.nome_curso?.toUpperCase() ?? "Curso desconhecido"}</h3>
+                </section>
+                <div className="progress-bar">
+                  <div style={{ width: `${curso.progresso_curso ?? 0}%` }}></div>
+                </div>
+                <span>{curso.progresso_curso ?? 0}% completo</span>
+              </div>
+            ))}
+          </div>
+        </CursosSection>
+      </MainContent>
+    </AlunoContainer>
   );
 }

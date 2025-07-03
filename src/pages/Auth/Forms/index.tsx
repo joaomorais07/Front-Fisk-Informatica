@@ -2,19 +2,12 @@
 
 import { Link } from "react-router-dom";
 import { FormEvent, useRef, useState } from "react";
-import {
-  AuthForm,
-  AuthFormContainer,
-  AuthFormLink,
-  DivInputPassword,
-  PasswordToggle,
-  UserSelector,
-  UserOption,
-} from "./style";
+import { AuthForm, AuthFormContainer, AuthFormLink, DivInputPassword, PasswordToggle, UserSelector, UserOption } from "./style";
 import Button from "../../../components/Button";
 import { useAuth } from "../../../contexts/Auth";
 import Input from "../../../components/Inputs/Input";
 import Icon from "../../../components/Icons";
+import { darkTheme } from "../../../themes";
 
 type FormType = "aluno" | "responsavel" | "funcionario";
 
@@ -63,29 +56,15 @@ export function SignInForm() {
         <p>Escola de Idiomas e Cursos Profissionalizantes!</p>
 
         <UserSelector>
-          <UserOption
-            type="button"
-            isSelected={userType === "aluno"}
-            onClick={() => selectType("aluno")}
-          >
+          <UserOption type="button" isSelected={userType === "aluno"} onClick={() => selectType("aluno")}>
             Aluno <Icon name="Aluno" size={20} color="#cc00ff" />
           </UserOption>
-          <UserOption
-            type="button"
-            isSelected={userType === "responsavel"}
-            onClick={() => selectType("responsavel")}
-          >
+          <UserOption type="button" isSelected={userType === "responsavel"} onClick={() => selectType("responsavel")}>
             Responsável <Icon name="Responsavel" size={20} color="#cc00ff" />
           </UserOption>
         </UserSelector>
 
-        <Input
-          id="sign-in-cpf"
-          label="CPF"
-          placeholder="Digite seu CPF"
-          textRef={cpfRef}
-          mask="cpf"
-        />
+        <Input id="sign-in-cpf" label="CPF" placeholder="Digite seu CPF" textRef={cpfRef} mask="cpf" />
 
         <DivInputPassword>
           <Input
@@ -95,9 +74,7 @@ export function SignInForm() {
             placeholder="Digite sua senha"
             textRef={passwordRef}
           />
-          <PasswordToggle onClick={togglePassword}>
-            {showPassword ? "🙈" : "👁️"}
-          </PasswordToggle>
+          <PasswordToggle onClick={togglePassword}>{showPassword ? "🙈" : "👁️"}</PasswordToggle>
         </DivInputPassword>
 
         {error && <span className="error">{error}</span>}
@@ -108,6 +85,7 @@ export function SignInForm() {
           width="100%"
           height="40px"
           fontSize="16px"
+          style={{ backgroundColor: darkTheme.colors.primary }}
           isLoading={isLoading}
         >
           Entrar
@@ -160,17 +138,11 @@ export function SignInFormAdm() {
 
         <UserSelector>
           <div className="DivAdm">
-            Administração <Icon name="Aluno" size={20} color="#cc00ff"/>
+            Administração <Icon name="Aluno" size={20} color="#cc00ff" />
           </div>
         </UserSelector>
 
-        <Input
-          id="sign-in-cpf-adm"
-          label="CPF"
-          placeholder="Digite seu CPF"
-          textRef={cpfRef}
-          mask="cpf"
-        />
+        <Input id="sign-in-cpf-adm" label="CPF" placeholder="Digite seu CPF" textRef={cpfRef} mask="cpf" />
 
         <DivInputPassword>
           <Input
@@ -180,21 +152,12 @@ export function SignInFormAdm() {
             placeholder="Digite sua senha"
             textRef={passwordRef}
           />
-          <PasswordToggle onClick={togglePassword}>
-            {showPassword ? "🙈" : "👁️"}
-          </PasswordToggle>
+          <PasswordToggle onClick={togglePassword}>{showPassword ? "🙈" : "👁️"}</PasswordToggle>
         </DivInputPassword>
 
         {error && <span className="error">{error}</span>}
 
-        <Button
-          id="sign-in-button-adm"
-          type="submit"
-          width="100%"
-          height="40px"
-          fontSize="16px"
-          isLoading={isLoading}
-        >
+        <Button id="sign-in-button-adm" type="submit" width="100%" height="40px" fontSize="16px" isLoading={isLoading}>
           Entrar
         </Button>
 

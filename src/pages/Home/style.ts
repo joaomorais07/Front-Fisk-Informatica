@@ -24,6 +24,7 @@ export const Container = styled.div`
   width: 100%;
   max-width: 1580px;
   border-radius: 5px;
+  
 `;
 
 export const WelcomeSection = styled.section`

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/Auth";
 import {
-  DiretorCard,
-  LeftSection,
+  DiretorContainer,
+  ProfileSection,
   ProfileImage,
-  RightSection,
-  InfoBlock,
-  AvisoCard,
+  ProfileInfo,
+  MainContent,
   GestaoSection,
-} from "./stylesDetail";
+  SectionTitle,
+  Divider,
+  AvisoCard,
+  InfoCard,
+} from "./stylesDiretor";
 import { BsGearFill } from "react-icons/bs";
 import { api } from "../../../services/api";
 import { DiretoData } from "../../../utils/types";
@@ -35,45 +38,51 @@ export default function DiretorDetails() {
   if (!diretor) return <p>Carregando dados do diretor...</p>;
 
   return (
-    <DiretorCard>
-      <LeftSection>
+    <DiretorContainer>
+      <ProfileSection>
         <ProfileImage src={diretor.foto_diretor || "/default_profile.png"} alt="Foto perfil" />
-        <InfoBlock>
-          <p>
-            <strong>Nome:</strong> {user?.dados.nome || "Não informado"}
-          </p>
-          <p>
-            <strong>Cargo:</strong> Diretor Geral
-          </p>
-        </InfoBlock>
-      </LeftSection>
+        <ProfileInfo>
+          <h2>{user?.dados.nome || "Não informado"}</h2>
+          <div className="info-row">
+            <span className="label">Cargo:</span>
+            <span className="value">Diretor Geral</span>
+          </div>
+          <div className="info-row">
+            <span className="label">Matrícula:</span>
+            <span className="value">{user?.dados.id}</span>
+          </div>
+        </ProfileInfo>
+      </ProfileSection>
 
-      <RightSection>
-        <GestaoSection>
-          <h1>
-            Painel de Gestão <BsGearFill />
-          </h1>
-          <div className="divider" />
+      <MainContent>
+        <InfoCard>
+          <GestaoSection>
+            <SectionTitle>
+              <BsGearFill />
+              <span>Painel de Gestão</span>
+            </SectionTitle>
+            <Divider />
 
-          <AvisoCard>
-            <p>
-              <strong>Relatório mensal disponível:</strong> O relatório de abril já está disponível no painel administrativo.
-            </p>
-          </AvisoCard>
+            <AvisoCard>
+              <p>
+                <strong>Relatório mensal disponível:</strong> O relatório de abril já está disponível no painel administrativo.
+              </p>
+            </AvisoCard>
 
-          <AvisoCard>
-            <p>
-              <strong>Curso novo cadastrado:</strong> Power BI Intermediário foi adicionado à grade.
-            </p>
-          </AvisoCard>
+            <AvisoCard>
+              <p>
+                <strong>Curso novo cadastrado:</strong> Power BI Intermediário foi adicionado à grade.
+              </p>
+            </AvisoCard>
 
-          <AvisoCard>
-            <p>
-              <strong>Reunião agendada:</strong> Diretores e coordenadores no dia 05/05 às 14h.
-            </p>
-          </AvisoCard>
-        </GestaoSection>
-      </RightSection>
-    </DiretorCard>
+            <AvisoCard>
+              <p>
+                <strong>Reunião agendada:</strong> Diretores e coordenadores no dia 05/05 às 14h.
+              </p>
+            </AvisoCard>
+          </GestaoSection>
+        </InfoCard>
+      </MainContent>
+    </DiretorContainer>
   );
 }

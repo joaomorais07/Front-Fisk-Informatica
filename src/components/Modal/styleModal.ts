@@ -12,6 +12,8 @@ export const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow: hidden;
+  pointer-events: auto; /* Garante que só o modal responda a cliques */
 `;
 
 export const ModalContent = styled.div`
@@ -35,6 +37,9 @@ export const ModalContent = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
     h2 {
       font-size: 1.6rem;

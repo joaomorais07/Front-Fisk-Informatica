@@ -6,9 +6,22 @@ import { useAuth } from "../contexts/Auth";
 import TurmaPage from "../pages/Turmas";
 import ProfileSelect from "../pages/Home/ProfileSelect";
 import HomePage from "../pages/Home";
+import FrequenciaPage from "../pages/Frequencia";
+import FrequenciaAlunoPage from "../pages/PainelAlunos/Frequencia";
+import GeneralLoading from "../components/GeneralLoading";
+import BoletimPage from "../pages/Boletim";
+import MateriaPage from "../pages/Materia";
+import BoletimAlunoPage from "../pages/PainelAlunos/Boletim";
+import FaturaPage from "../pages/PainelAlunos/Faturas";
+import FaturasPage from "../pages/Faturas";
 
 export function MyRoutes() {
-  const { user } = useAuth();
+  const { user, userLoading} = useAuth();
+
+  if (userLoading) {
+    // Pode colocar um loader aqui ou retornar null
+    return <GeneralLoading />;
+  }
 
   const routes = [
     {
@@ -40,6 +53,34 @@ export function MyRoutes() {
     {
       path: "/funcionario",
       element: <PrivateRoute element={<FuncionarioPage />} forUsers={["diretor", "secretario"]} />,
+    },
+     {
+      path: "/painel-alunos/boletim",
+      element: <PrivateRoute element={<BoletimAlunoPage />} forUsers={["aluno", "responsavel"]} />,
+    },
+    {
+      path: "/painel-alunos/frequencia",
+      element: <PrivateRoute element={<FrequenciaAlunoPage />} forUsers={["aluno", "responsavel"]} />,
+    },
+    {
+      path: "/painel-alunos/fatura",
+      element: <PrivateRoute element={<FaturaPage />} forUsers={["aluno", "responsavel"]} />,
+    },
+    {
+      path: "/faturas",
+      element: <PrivateRoute element={<FaturasPage />} forUsers={["diretor", "professor", "secretario"]} />,
+    },
+    {
+      path: "/frequencia",
+      element: <PrivateRoute element={<FrequenciaPage />} forUsers={["diretor", "professor", "secretario"]} />,
+    },
+    {
+      path: "/boletim",
+      element: <PrivateRoute element={<BoletimPage />} forUsers={["diretor", "professor", "secretario"]} />,
+    },
+    {
+      path: "/materia",
+      element: <PrivateRoute element={<MateriaPage />} forUsers={["diretor", "professor", "secretario"]} />,
     },
     {
       path: "/turma",

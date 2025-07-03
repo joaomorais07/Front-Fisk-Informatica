@@ -1,127 +1,215 @@
-import { HeaderContainer, HeaderLogo, MenuSuspenso, NavHeader, Section, SectionMobile } from "./style";
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { LiaUserEditSolid } from "react-icons/lia";
-import { Link, useLocation } from "react-router-dom";
 import { MdOutlineExitToApp } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/Auth";
 import { fetchUserData } from "../../utils/fetchUserData";
+import { IoMenuOutline } from "react-icons/io5";
+import {
+  HeaderContainer,
+  HeaderContent,
+  LogoContainer,
+  LogoLink,
+  LogoImage,
+  NavSection,
+  NavLink,
+  NavList,
+  MobileMenuButton,
+  MobileNav,
+  UserMenuContainer,
+  UserMenuButton,
+  UserAvatar,
+  DropdownMenu,
+  DropdownItem,
+  MobileNavLink,
+  // Adicione estes novos componentes estilizados
+  NavItemWithDropdown,
+  DropdownContent,
+  DropdownLink,
+} from "./style";
 
-function Header() {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLUListElement | null>(null);
-  const buttonRef = useRef<HTMLDivElement | null>(null);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState("/assets/profile/default.png");
+  const [isAlunoDropdownOpen, setIsAlunoDropdownOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { user, alunoSelecionado, signOut } = useAuth();
+  const alunoDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const [profileImage, setProfileImage] = useState("/Front-Fisk-Informatica/assets/profile/default.png");
- 
-  const tipoUsuario = user?.tipo?.toLowerCase(); // "aluno", "responsavel", "diretor", "professor", "secretario"
+
+  const userType = user?.tipo?.toLowerCase();
+  const isAlunoOrResponsavel = ["aluno", "responsavel"].includes(userType ?? "");
+  const isFuncionario = ["diretor", "professor", "secretario"].includes(userType ?? "");
 
   useEffect(() => {
-    const getUserData = async () => {
-      const fetched = await fetchUserData({
-        tipo: tipoUsuario,
+    const loadUserData = async () => {
+      const data = await fetchUserData({
+        tipo: userType,
         id: user?.dados.id,
         alunoSelecionadoId: alunoSelecionado?.id,
       });
-
-      if (fetched) {
-        setProfileImage(fetched.imagemUrl);
+      if (data?.imagemUrl) {
+        setProfileImage(data.imagemUrl);
       }
     };
 
-    getUserData();
-  }, [user?.dados.id, alunoSelecionado?.id]);
+    loadUserData();
+  }, [user?.dados.id, alunoSelecionado?.id, userType]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prevState) => !prevState);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMobileNav = () => setIsMobileNavOpen(!isMobileNavOpen);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const isAlunoOuResponsavel = tipoUsuario === "aluno" || tipoUsuario === "responsavel";
-  const isFuncionario = tipoUsuario === "diretor" || tipoUsuario === "professor" || tipoUsuario === "secretario";
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+      if (alunoDropdownRef.current && !alunoDropdownRef.current.contains(event.target as Node)) {
+        setIsAlunoDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const studentLinks = [
+    { path: "/painel-alunos/boletim", label: "Boletim" },
+    { path: "/painel-alunos/fatura", label: "Faturas" },
+    { path: "/painel-alunos/frequencia", label: "Frequência" },
+  ];
+
+  const staffLinks = [
+    {
+      path: "/aluno",
+      label: "Alunos",
+      subItems: [
+        { path: "/frequencia", label: "Frequência" },
+        { path: "/boletim", label: "Boletim" },
+      ],
+    },
+     { path: "/faturas", label: "Faturas" },
+    { path: "/funcionario", label: "Funcionários" },
+    { path: "/materia", label: "Matérias" },
+    { path: "/turma", label: "Turmas" },
+  ];
 
   return (
     <HeaderContainer>
-      <SectionMobile>
-        <HeaderLogo to="/">
-          <img className="fullLogo" src="/Front-Fisk-Informatica/assets/images/Logo.png" alt="Logo" />
-        </HeaderLogo>
-      </SectionMobile>
+      <HeaderContent>
+        <MobileMenuButton onClick={toggleMobileNav}>
+          <IoMenuOutline />
+        </MobileMenuButton>
 
-      <Section>
-        <HeaderLogo to="/">
-          <img className="fullLogo" src="/Front-Fisk-Informatica/assets/images/Logo.png" alt="Logo" />
-        </HeaderLogo>
+        <LogoContainer>
+          <LogoLink to="/">
+            <LogoImage src="/Front-Fisk-Informatica/assets/images/Logo.png" alt="Logo" />
+          </LogoLink>
+        </LogoContainer>
 
-        <NavHeader>
-          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-            <p>Home</p>
-          </Link>
+        <NavSection>
+          <NavList>
+            <NavLink to="/" $isActive={location.pathname === "/"} $userType={userType}>
+              Home
+            </NavLink>
 
-          {isAlunoOuResponsavel && (
-            <>
-              <Link to="/boletim" className={location.pathname === "/boletim" ? "active" : ""}>
-                <p>Boletim</p>
-              </Link>
-              <Link to="/faturas" className={location.pathname === "/faturas" ? "active" : ""}>
-                <p>Faturas</p>
-              </Link>
-              <Link to="/frequencia" className={location.pathname === "/frequencia" ? "active" : ""}>
-                <p>Frequência</p>
-              </Link>
-            </>
-          )}
+            {isAlunoOrResponsavel &&
+              studentLinks.map((link) => (
+                <NavLink key={link.path} to={link.path} $isActive={location.pathname === link.path} $userType={userType}>
+                  {link.label}
+                </NavLink>
+              ))}
 
-          {isFuncionario && (
-            <>
-              <Link to="/aluno" className={location.pathname === "/aluno" ? "active" : ""}>
-                <p>Alunos</p>
-              </Link>
-              <Link to="/funcionario" className={location.pathname === "/funcionario" ? "active" : ""}>
-                <p>Funcionários</p>
-              </Link>
-              <Link to="/turma" className={location.pathname === "/turma" ? "active" : ""}>
-                <p>Turmas</p>
-              </Link>
-            </>
-          )}
+            {isFuncionario &&
+              staffLinks.map((link) => {
+                if (link.subItems) {
+                  return (
+                    <NavItemWithDropdown
+                      key={link.path}
+                      ref={alunoDropdownRef}
+                      onMouseEnter={() => setIsAlunoDropdownOpen(true)}
+                      onMouseLeave={() => setIsAlunoDropdownOpen(false)}
+                    >
+                      <NavLink to={link.path} $isActive={location.pathname === link.path} $userType={userType}>
+                        {link.label}
+                      </NavLink>
+                      {isAlunoDropdownOpen && (
+                        <DropdownContent>
+                          {link.subItems.map((subItem) => (
+                            <DropdownLink key={subItem.path} to={subItem.path} $isActive={location.pathname === subItem.path}>
+                              {subItem.label}
+                            </DropdownLink>
+                          ))}
+                        </DropdownContent>
+                      )}
+                    </NavItemWithDropdown>
+                  );
+                }
+                return (
+                  <NavLink key={link.path} to={link.path} $isActive={location.pathname === link.path} $userType={userType}>
+                    {link.label}
+                  </NavLink>
+                );
+              })}
+          </NavList>
+        </NavSection>
 
-          <div onClick={toggleMenu} ref={buttonRef}>
-            <img src={profileImage} alt="profile" />
-
+        <UserMenuContainer>
+          <UserMenuButton ref={menuRef} onClick={toggleMenu}>
+            <UserAvatar src={profileImage} alt="Profile" $userType={userType} />
             {isMenuOpen && (
-              <MenuSuspenso ref={menuRef}>
-                <li>
+              <DropdownMenu>
+                <DropdownItem>
                   <LiaUserEditSolid size={20} />
                   <span>Meus Dados</span>
-                </li>
-                <li onClick={signOut}>
+                </DropdownItem>
+                <DropdownItem onClick={signOut}>
                   <MdOutlineExitToApp size={20} />
                   <span>Sair</span>
-                </li>
-              </MenuSuspenso>
+                </DropdownItem>
+              </DropdownMenu>
             )}
-          </div>
-        </NavHeader>
-      </Section>
+          </UserMenuButton>
+        </UserMenuContainer>
+
+        {isMobileNavOpen && (
+          <MobileNav>
+            <MobileNavLink to="/" $isActive={location.pathname === "/"} $userType={userType}>
+              Home
+            </MobileNavLink>
+
+            {isAlunoOrResponsavel &&
+              studentLinks.map((link) => (
+                <MobileNavLink key={link.path} to={link.path} $isActive={location.pathname === link.path} $userType={userType}>
+                  {link.label}
+                </MobileNavLink>
+              ))}
+
+            {isFuncionario &&
+              staffLinks
+                .flatMap((link) => (link.subItems ? [{ path: link.path, label: link.label }, ...link.subItems] : [link]))
+                .map((item) => (
+                  <MobileNavLink key={item.path} to={item.path} $isActive={location.pathname === item.path} $userType={userType}>
+                    {item.label}
+                  </MobileNavLink>
+                ))}
+          </MobileNav>
+        )}
+      </HeaderContent>
     </HeaderContainer>
   );
-}
+};
 
 export default Header;

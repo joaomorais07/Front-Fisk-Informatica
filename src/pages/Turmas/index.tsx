@@ -19,7 +19,6 @@ import { darkTheme } from "../../themes";
 import { TurmaData } from "../../utils/types";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
-import BottomNav from "./../../components/BottomNav/index";
 import TimeRangeInput from "../../components/Inputs/InputTime";
 import TurmasList from "./ListTurma";
 
@@ -35,7 +34,7 @@ function TurmaPage() {
 
       if (response.status === 201) {
         toast.success("Turma cadastrada com sucesso!");
-        reset(); // Limpa o formulário
+        reset();
       } else {
         toast.error("Falha ao cadastrar a turma. Tente novamente.");
       }
@@ -114,7 +113,6 @@ function TurmaPage() {
         <TurmasList />
         
       </ContainerAluno>
-      <BottomNav />
     </>
   );
 }
