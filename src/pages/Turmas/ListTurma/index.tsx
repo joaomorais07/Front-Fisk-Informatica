@@ -171,7 +171,7 @@ function TurmasList() {
             <div className="info-item"><span className="label">Total de Alunos:</span> <span className="value">{modalTurma.total_alunos}</span></div>
             <div className="info-item"><span className="label">Horário:</span> <span className="value">{modalTurma.horario || "Não definido"}</span></div>
             <div className="info-item"><span className="label">Status:</span> <span className="value">{getStatusLabel(modalTurma.status)}</span></div>
-            <div className="info-item"><span className="label">Observação:</span> <span className="value">{modalTurma.observacao || "Nenhuma observação"}</span></div>
+            <div className="info-item"><span className="label">Observação:</span> <span className="value">{modalTurma.observacoes || "Nenhuma observação"}</span></div>
           </div>
 
           <Options>

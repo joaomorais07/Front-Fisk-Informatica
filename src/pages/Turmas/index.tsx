@@ -98,7 +98,7 @@ function TurmaPage() {
                       <option value="Noturno">Noturno</option>
                     </SelectField>
                     <TimeRangeInput name="horario" control={control} label="Horário" required />
-                    <InputField type="text" label="Observação:" {...register("observacao")} />
+                    <InputField type="text" label="Observação:" {...register("observacoes")} />
                   </DivSecao>
                 </ContainerInput>
 

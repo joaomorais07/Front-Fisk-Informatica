@@ -40,7 +40,7 @@ export default function DiretorDetails() {
   return (
     <DiretorContainer>
       <ProfileSection>
-        <ProfileImage src={diretor.foto_diretor || "/default_profile.png"} alt="Foto perfil" />
+        <ProfileImage src={diretor.foto_diretor || "/Front-Fisk-Informatica/assets/profile/default.png"} alt="Foto perfil" />
         <ProfileInfo>
           <h2>{user?.dados.nome || "Não informado"}</h2>
           <div className="info-row">

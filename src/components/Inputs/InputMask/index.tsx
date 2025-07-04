@@ -4,108 +4,69 @@ import { InputContainer, StyledInputField, LabelFloating } from "./styles";
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   mask: string;
+  value?: string;
+  defaultValue?: string;
 }
 
 const InputMask = forwardRef<HTMLInputElement, Props>(
   ({ label, mask, value, defaultValue, onChange, ...props }, ref) => {
-    const applyMask = (value: string, mask: string): string => {
-      const cleanValue = value.replace(/[^a-zA-Z0-9]/g, "");
-      const maskArray = mask.split("");
-      let maskedValue = "";
-      let valueIndex = 0;
+    const [displayValue, setDisplayValue] = useState<string>("");
 
-      for (let i = 0; i < maskArray.length; i++) {
-        if (maskArray[i] === "9") {
-          if (/\d/.test(cleanValue[valueIndex])) {
-            maskedValue += cleanValue[valueIndex];
-            valueIndex++;
-          } else {
-            break;
-          }
-        } else if (maskArray[i] === "A") {
-          if (/[a-zA-Z0-9]/.test(cleanValue[valueIndex])) {
-            maskedValue += cleanValue[valueIndex].toLocaleUpperCase();
-            valueIndex++;
-          } else {
-            break;
-          }
-        } else if (maskArray[i] === "?") {
-          if (cleanValue[valueIndex]) {
-            maskedValue += cleanValue[valueIndex].toLocaleUpperCase();
-            valueIndex++;
+    // Função para aplicar máscara
+    const applyMask = (inputValue: string): string => {
+      const cleanValue = inputValue.replace(/\D/g, '');
+      let result = '';
+      let index = 0;
+
+      for (let i = 0; i < mask.length; i++) {
+        if (index >= cleanValue.length) break;
+
+        const maskChar = mask[i];
+        const valueChar = cleanValue[index];
+
+        if (maskChar === '9') {
+          if (/\d/.test(valueChar)) {
+            result += valueChar;
+            index++;
           }
         } else {
-          if (cleanValue[valueIndex]) {
-            maskedValue += maskArray[i];
+          result += maskChar;
+          if (valueChar === maskChar) {
+            index++;
           }
         }
       }
 
-      return maskedValue;
+      return result;
     };
 
-    const [rawValue, setRawValue] = useState<string>(defaultValue ? applyMask(String(defaultValue), mask) : "");
-
+    // Atualiza quando o valor externo muda
     useEffect(() => {
-      const newValue = value ? String(value) : defaultValue ? String(defaultValue) : "";
-      setRawValue(applyMask(newValue, mask));
+      const newValue = value || defaultValue || '';
+      const formattedValue = applyMask(String(newValue));
+      setDisplayValue(formattedValue);
     }, [value, defaultValue, mask]);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
-      const rawCleanValue = newValue.replace(/[^a-zA-Z0-9]/g, "");
-      const previousCleanValue = rawValue.replace(/[^a-zA-Z0-9]/g, "");
-      const isDeleting = rawCleanValue.length < previousCleanValue.length;
-
-      let maskedValue = "";
-      if (isDeleting) {
-        maskedValue = newValue;
-      } else {
-        maskedValue = applyMask(rawCleanValue, mask);
-      }
-
-      setRawValue(maskedValue);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const rawValue = e.target.value.replace(/\D/g, '');
+      const newDisplayValue = applyMask(rawValue);
+      
+      setDisplayValue(newDisplayValue);
 
       if (onChange) {
-        onChange({
-          ...event,
-          target: {
-            ...event.target,
-            value: maskedValue,
-          },
-        });
+        e.target.value = rawValue; // Envia o valor sem máscara
+        onChange(e);
       }
     };
 
-    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      const cleanValue = rawValue.replace(/[^a-zA-Z0-9]/g, "");
-      const requiredLength = mask.split("").filter((char) => char === "9" || char === "A").length;
-      const maxLength = mask.split("").filter((char) => char === "9" || char === "A" || char === "?").length;
-
-      if (cleanValue.length < requiredLength || cleanValue.length > maxLength) {
-        setRawValue("");
-        if (onChange) {
-          onChange({
-            ...event,
-            target: {
-              ...event.target,
-              value: "",
-            },
-          });
-        }
-      }
-    };
-    
     return (
       <InputContainer>
         <StyledInputField
           {...props}
-          value={rawValue}
+          value={displayValue}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder=" "
           ref={ref}
-          spellCheck="false"
         />
         <LabelFloating>{label}</LabelFloating>
       </InputContainer>
@@ -113,4 +74,5 @@ const InputMask = forwardRef<HTMLInputElement, Props>(
   }
 );
 
+InputMask.displayName = "InputMask";
 export default InputMask;

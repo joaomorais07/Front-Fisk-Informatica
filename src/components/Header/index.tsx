@@ -31,7 +31,7 @@ import {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState("/assets/profile/default.png");
+  const [profileImage, setProfileImage] = useState("/Front-Fisk-Informatica/assets/profile/default.png");
   const [isAlunoDropdownOpen, setIsAlunoDropdownOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { user, alunoSelecionado, signOut } = useAuth();
@@ -45,8 +45,8 @@ const Header = () => {
   useEffect(() => {
     const loadUserData = async () => {
       const data = await fetchUserData({
-        tipo: userType,
-        id: user?.dados.id,
+        tipo: userType || "",
+        id: user?.dados.id || 0,
         alunoSelecionadoId: alunoSelecionado?.id,
       });
       if (data?.imagemUrl) {
@@ -100,7 +100,7 @@ const Header = () => {
         { path: "/boletim", label: "Boletim" },
       ],
     },
-     { path: "/faturas", label: "Faturas" },
+    { path: "/faturas", label: "Faturas" },
     { path: "/funcionario", label: "Funcionários" },
     { path: "/materia", label: "Matérias" },
     { path: "/turma", label: "Turmas" },

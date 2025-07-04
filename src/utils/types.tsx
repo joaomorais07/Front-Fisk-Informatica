@@ -22,10 +22,10 @@ export interface AlunoData {
   foto_aluno: string | null;
 
   responsavel: {
-    id_responsavel: string | null;
-    nome_responsavel: string | null;
-    cpf_responsavel: string | null;
-    telefone_responsavel: string | null;
+    id_responsavel?: string;
+    nome_responsavel: string;
+    cpf_responsavel: string;
+    telefone_responsavel: string;
   };
 
   curso: [
@@ -58,7 +58,7 @@ export interface TurmaData {
   total_alunos: number;
   horario: string | null;
   status: string;
-  observacao: string | null;
+  observacoes: string | null;
 }
 
 export interface DiretoData {

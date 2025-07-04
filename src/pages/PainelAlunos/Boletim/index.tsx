@@ -19,23 +19,25 @@ import {
   EmptyState,
   LoadingContainer,
   StatusIndicator,
-  Tooltip
 } from "./styles";
 import { FiInfo } from "react-icons/fi";
 import GeneralLoading from "../../../components/GeneralLoading";
 
-interface Nota {
-  aluno_id: number;
+interface MateriaNota {
   materia_id: number;
   materia_nome: string;
-  turma_id: number;
-  nota: number;
-  data_avaliacao?: string;
+  nota_id: number | null;
+  nota_valor: number | null;
+}
+
+interface NotasResponse {
+  total_materias: number;
+  notas: MateriaNota[];
 }
 
 const BoletimAlunoPage: React.FC = () => {
   const { user } = useAuth();
-  const [notas, setNotas] = useState<Nota[]>([]);
+  const [notas, setNotas] = useState<MateriaNota[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [average, setAverage] = useState<number | null>(null);
@@ -44,12 +46,12 @@ const BoletimAlunoPage: React.FC = () => {
     const fetchNotas = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/nota/aluno/${user?.dados.id}`);
-        setNotas(response.data);
-        calculateAverage(response.data);
+        const response = await api.get<NotasResponse>(`/nota/aluno/${user?.dados.id}`);
+        setNotas(response.data.notas);
+        calculateAverage(response.data.notas);
       } catch (err) {
         setError("Erro ao carregar notas. Tente novamente mais tarde.");
-        console.error(err);
+        console.error("Failed to load grades:", err);
       } finally {
         setLoading(false);
       }
@@ -58,25 +60,31 @@ const BoletimAlunoPage: React.FC = () => {
     fetchNotas();
   }, [user?.dados.id]);
 
-  const calculateAverage = (notasData: Nota[]) => {
-    if (notasData.length === 0) {
+  const calculateAverage = (notasData: MateriaNota[]) => {
+    const validGrades = notasData.filter((nota) => nota.nota_valor !== null).map((nota) => nota.nota_valor as number);
+
+    if (validGrades.length === 0) {
       setAverage(null);
       return;
     }
-    const sum = notasData.reduce((acc, nota) => acc + nota.nota, 0);
-    const avg = sum / notasData.length;
+
+    const sum = validGrades.reduce((acc, nota) => acc + nota, 0);
+    const avg = sum / validGrades.length;
     setAverage(avg);
   };
 
-  const getStatusColor = (nota: number) => {
-    if (nota >= 7) return '#4CAF50'; // Aprovado
-    if (nota >= 5) return '#FFC107'; // Recuperação
-    return '#F44336'; // Reprovado
+  const getStatusColor = (nota: number | null) => {
+    if (nota === null) return "#9E9E9E"; // Cinza para não avaliado
+    if (nota >= 5) return "#4CAF50"; // Aprovado
+    // if (nota >= 5) return "#FFC107"; // Recuperação
+    return "#F44336"; // Reprovado
   };
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('pt-BR');
+  const getStatusText = (nota: number | null) => {
+    if (nota === null) return "Não avaliado";
+    if (nota >= 5) return "Aprovado";
+    // if (nota >= 5) return "Recuperação";
+    return "Reprovado";
   };
 
   return (
@@ -85,6 +93,7 @@ const BoletimAlunoPage: React.FC = () => {
       <Container>
         <Card>
           <Title>Minhas Notas</Title>
+
           {loading ? (
             <LoadingContainer>
               <GeneralLoading />
@@ -108,29 +117,28 @@ const BoletimAlunoPage: React.FC = () => {
                   {notas.length > 0 ? (
                     <>
                       {notas.map((nota) => (
-                        <TableRow key={`${nota.materia_id}-${nota.turma_id}`}>
+                        <TableRow key={`${nota.materia_id}`}>
                           <SubjectCell>{nota.materia_nome}</SubjectCell>
-                          <GradeCell>{nota.nota.toFixed(1)}</GradeCell>
+                          <GradeCell>{nota.nota_valor !== null ? nota.nota_valor.toFixed(1) : "-"}</GradeCell>
                           <TableCell>
-                            <StatusIndicator color={getStatusColor(nota.nota)} />
-                            {nota.nota >= 7 ? 'Aprovado' : nota.nota >= 5 ? 'Recuperação' : 'Reprovado'}
+                            <StatusIndicator color={getStatusColor(nota.nota_valor)} />
+                            {getStatusText(nota.nota_valor)}
                           </TableCell>
                         </TableRow>
                       ))}
                       <AverageRow>
                         <AverageCell colSpan={2}>Média Geral:</AverageCell>
                         <AverageCell highlight={average !== null && average >= 6}>
-                          {average?.toFixed(1) || '-'}
+                          {average?.toFixed(1) || "-"}
                         </AverageCell>
-              
                       </AverageRow>
                     </>
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={4}>
+                      <TableCell colSpan={3}>
                         <EmptyState>
                           <FiInfo size={48} />
-                          <p>Nenhuma nota registrada ainda</p>
+                          <p>Nenhuma matéria registrada</p>
                         </EmptyState>
                       </TableCell>
                     </TableRow>

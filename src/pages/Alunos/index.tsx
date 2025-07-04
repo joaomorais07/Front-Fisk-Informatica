@@ -25,18 +25,15 @@ import { toast } from "react-toastify";
 import AlunosList from "./ListAluno";
 import { SearchInput } from "../../components/Inputs/InputSearch";
 import Swal from "sweetalert2";
-import { LuCopy } from "react-icons/lu";
 
 function AlunosPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const [isMatriculaOpen, setIsMatriculaOpen] = useState(false);
   const [turmas, setTurmas] = useState([]);
   const [busca, setBusca] = useState("");
-
-  useEffect(() => {
-    console.log("Turmas:", turmas);
-  }, [turmas]);
+  const [responsavelEncontrado, setResponsavelEncontrado] = useState(false);
+  const [alunoOptions, setAlunoOptions] = useState<Option[]>([]);
+  const [alunosFiltrados, setAlunosFiltrados] = useState<Option[]>([]);
 
   type Option = {
     id: string | number;
@@ -46,7 +43,6 @@ function AlunosPage() {
   const methods = useForm<AlunoData>();
   const { register, handleSubmit, setValue, reset, watch } = methods;
   const temResponsavel = watch("tem_responsavel");
-
   const matriculaForm = useForm<{ aluno_id: string; turma_id: string }>();
   const {
     register: registerMatricula,
@@ -61,6 +57,13 @@ function AlunosPage() {
     }
   }, [isMatriculaOpen]);
 
+  const handleCloseModal = () => {
+    reset();
+    resetResponsavelFields();
+    setResponsavelEncontrado(false);
+    setIsDialogOpen(false);
+  };
+
   function getStatusEmoji(status: string) {
     switch (status) {
       case "A":
@@ -73,9 +76,6 @@ function AlunosPage() {
         return "⚪";
     }
   }
-
-  const [alunoOptions, setAlunoOptions] = useState<Option[]>([]);
-  const [alunosFiltrados, setAlunosFiltrados] = useState<Option[]>([]);
 
   const handleAlunoBusca = async (search: string) => {
     if (search.length === 3) {
@@ -103,12 +103,53 @@ function AlunosPage() {
     }
   };
 
+  const buscarResponsavel = async (cpf: string) => {
+    const cpfLimpo = cpf.replace(/\D/g, ""); // Remove não-numéricos
+
+    if (cpfLimpo.length === 11) {
+      try {
+        console.log("Tentando buscar responsavel")
+        const response = await api.get("/alunos/responsavel", {
+          params: {
+            cpf_responsavel: cpfLimpo,
+          },
+        });
+
+        const { encontrado, responsavel } = response.data;
+
+        if (encontrado && responsavel) {
+          setResponsavelEncontrado(true);
+          setValue("responsavel.nome_responsavel", responsavel.nome || "");
+          setValue("responsavel.cpf_responsavel", responsavel.cpf || cpf);
+          setValue("responsavel.telefone_responsavel", responsavel.telefone || "");
+        } else {
+          setResponsavelEncontrado(false);
+          resetResponsavelFields();
+        }
+      } catch (error) {
+        console.error("Erro ao buscar responsável:", error);
+        setResponsavelEncontrado(false);
+        resetResponsavelFields();
+      }
+    }
+  };
+
+  // Função para limpar campos do responsável
+  const resetResponsavelFields = () => {
+    setValue("responsavel.nome_responsavel", "");
+    setValue("responsavel.cpf_responsavel", "");
+    setValue("responsavel.telefone_responsavel", "");
+  };
+
   const cadastrarAluno: SubmitHandler<AlunoData> = async (data) => {
     try {
+      console.log(data)
       const response = await api.post("/alunos/cadastrar", data);
       if (response.status === 201) {
         toast.success("Aluno cadastrado com sucesso!");
         reset();
+        resetResponsavelFields();
+        setResponsavelEncontrado(false);
       } else {
         toast.error("Falha ao cadastrar o aluno. Tente novamente.");
       }
@@ -207,9 +248,7 @@ function AlunosPage() {
             });
           },
         });
-
       } else if (response.status === 200) {
-        // Caso do responsável já possuir conta
         toast.success(response.data.message || "Aluno matriculado com sucesso.");
         resetMatricula();
         setBusca("");
@@ -240,11 +279,10 @@ function AlunosPage() {
             <BiUserCheck size={20} />
             <span>Matricular Aluno</span>
           </ActionButton>
-
         </Actions>
 
         {isDialogOpen && (
-          <DialogCadastro isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} title="Aluno - Cadastro">
+          <DialogCadastro isOpen={isDialogOpen} onClose={handleCloseModal} title="Aluno - Cadastro">
             <FormProvider {...methods}>
               <FormContainer onSubmit={handleSubmit(cadastrarAluno)}>
                 <ContainerInput>
@@ -273,30 +311,43 @@ function AlunosPage() {
 
                   {temResponsavel && (
                     <DivSecao>
+                      <input type="hidden" {...register("responsavel.id_responsavel")} />
+
                       <h1>Dados do Responsável</h1>
-                      <InputField
-                        type="text"
-                        label="Nome do Responsável:"
-                        {...register("responsavel.nome_responsavel", { required: true })}
-                      />
                       <InputMask
                         label="CPF do Responsável:"
                         mask="999.999.999-99"
-                        onChange={(e) => setValue("responsavel.cpf_responsavel", e.target.value)}
+                        onChange={(e) => {
+                          setValue("responsavel.cpf_responsavel", e.target.value);
+                          buscarResponsavel(e.target.value);
+                        }}
+                        onBlur={(e) => buscarResponsavel(e.target.value)}
+                        style={{
+                          borderBottom: responsavelEncontrado ? "2px solid green" : "1px solid gray",
+                        }}
                       />
+
+                      <InputField
+                        type="text"
+                        label="Nome do Responsável:"
+                        {...register("responsavel.nome_responsavel")}
+                      />
+
                       <InputMask
                         label="Telefone do Responsável:"
                         mask="(99)99999-9999"
-                        onChange={(e) => setValue("responsavel.telefone_responsavel", e.target.value)}
+                        value={watch("responsavel.telefone_responsavel")} 
+                        onChange={(e) => {
+                          setValue("responsavel.telefone_responsavel", e.target.value);
+                        }}
                       />
                     </DivSecao>
                   )}
-
                   <DivSecao>
                     <h1>Endereço</h1>
-                    <InputField type="text" label="Estado:" {...register("endereco.estado")} />
+                    <InputField type="text" label="Estado:" {...register("endereco.estado", { required: true })} />
                     <InputMask label="CEP" mask="99999-999" onChange={(e) => setValue("endereco.cep", e.target.value)} />
-                    <InputField type="text" label="Cidade:" {...register("endereco.cidade")} />
+                    <InputField type="text" label="Cidade:" {...register("endereco.cidade" , { required: true })} />
                     <InputField type="text" label="Bairro:" {...register("endereco.bairro")} />
                     <InputField type="text" label="Rua:" {...register("endereco.rua")} />
                     <InputField type="text" label="Número:" {...register("endereco.numero")} />
