@@ -24,8 +24,8 @@ export const ModalContent = styled.div`
   position: relative;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
-  max-width: 400px;
+  width: 95%;
+  max-width: 450px;
   max-height: 90vh;
   overflow-y: auto;
   font-family: "Segoe UI", sans-serif;

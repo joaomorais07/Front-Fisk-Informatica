@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import AlunosList from "./ListAluno";
 import { SearchInput } from "../../components/Inputs/InputSearch";
 import Swal from "sweetalert2";
+import { showAlert } from "../../utils/showAlert";
 
 function AlunosPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -108,7 +109,7 @@ function AlunosPage() {
 
     if (cpfLimpo.length === 11) {
       try {
-        console.log("Tentando buscar responsavel")
+        console.log("Tentando buscar responsavel");
         const response = await api.get("/alunos/responsavel", {
           params: {
             cpf_responsavel: cpfLimpo,
@@ -143,7 +144,7 @@ function AlunosPage() {
 
   const cadastrarAluno: SubmitHandler<AlunoData> = async (data) => {
     try {
-      console.log(data)
+      console.log(data);
       const response = await api.post("/alunos/cadastrar", data);
       if (response.status === 201) {
         toast.success("Aluno cadastrado com sucesso!");
@@ -176,72 +177,70 @@ function AlunosPage() {
         setBusca("");
         setIsMatriculaOpen(false);
 
-        Swal.fire({
-          title: "<strong>Cadastro Criado</strong>",
+        showAlert({
+          title: "Cadastro Criado",
           html: `
-          <p><strong>Tipo de Usuário:</strong> ${tipo_usuario}</p>
-          <p><strong>CPF:</strong> ${cpf}</p>
-          <p><strong>Senha:</strong> 
-            <span id="senhaTexto" style="font-weight:bold; color:#d62828;">${senha}</span>
-          </p>
-          <div style="display: flex; justify-content: center; margin-top: 10px;">
-            <button id="copiarSenhaBtn" style="
-              display: inline-flex;
-              align-items: center;
-              gap: 5px;
-              padding: 4px 10px;
-              font-size: 13px;
-              background-color: #eeeeee;
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              cursor: pointer;
-            ">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
-                viewBox="0 0 24 24">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-              </svg>
-              Copiar
-            </button>
-          </div>
-          <p style="margin-top: 20px; color: #ff0000;">
-            <em>Importante: anote esta senha com segurança. Ela não será exibida novamente!</em>
-          </p>
-        `,
+      <p><strong>Tipo de Usuário:</strong> ${tipo_usuario}</p>
+      <p><strong>CPF:</strong> ${cpf}</p>
+      <p><strong>Senha:</strong> 
+        <span id="senhaTexto" style="font-weight:bold; color:#d62828;">${senha}</span>
+      </p>
+      <div style="display: flex; justify-content: center; margin-top: 10px;">
+        <button id="copiarSenhaBtn" style="
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 10px;
+          font-size: 13px;
+          background-color: #eeeeee;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          cursor: pointer;
+        ">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"
+            viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          Copiar
+        </button>
+      </div>
+      <p style="margin-top: 20px; color: #ff0000;">
+        <em>Importante: anote esta senha com segurança. Ela não será exibida novamente!</em>
+      </p>
+    `,
           icon: "info",
-          confirmButtonText: "Entendi",
-          confirmButtonColor: "#006eff",
-          allowOutsideClick: false,
-          width: 430,
-          didRender: () => {
+          confirmText: "Entendi",
+          confirmColor: "#006eff",
+          customRender: () => {
             const btn = document.getElementById("copiarSenhaBtn");
-            const senha = document.getElementById("senhaTexto")?.textContent;
+            const senhaText = document.getElementById("senhaTexto")?.textContent;
 
             btn?.addEventListener("click", () => {
-              if (senha) {
-                navigator.clipboard.writeText(senha).then(() => {
+              if (senhaText) {
+                navigator.clipboard.writeText(senhaText).then(() => {
                   btn.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-              fill="none" stroke="green" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round"
-              viewBox="0 0 24 24">
-              <path d="M20 6L9 17l-5-5"/>
-            </svg>
-            Copiado
-          `;
-                  setTimeout(() => {
-                    btn.innerHTML = `
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                fill="none" stroke="currentColor" stroke-width="2"
+                fill="none" stroke="green" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round"
                 viewBox="0 0 24 24">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                <path d="M20 6L9 17l-5-5"/>
               </svg>
-              Copiar
+              Copiado
             `;
+                  setTimeout(() => {
+                    btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copiar
+              `;
                   }, 3000);
                 });
               }
@@ -327,16 +326,12 @@ function AlunosPage() {
                         }}
                       />
 
-                      <InputField
-                        type="text"
-                        label="Nome do Responsável:"
-                        {...register("responsavel.nome_responsavel")}
-                      />
+                      <InputField type="text" label="Nome do Responsável:" {...register("responsavel.nome_responsavel")} />
 
                       <InputMask
                         label="Telefone do Responsável:"
                         mask="(99)99999-9999"
-                        value={watch("responsavel.telefone_responsavel")} 
+                        value={watch("responsavel.telefone_responsavel")}
                         onChange={(e) => {
                           setValue("responsavel.telefone_responsavel", e.target.value);
                         }}
@@ -347,7 +342,7 @@ function AlunosPage() {
                     <h1>Endereço</h1>
                     <InputField type="text" label="Estado:" {...register("endereco.estado", { required: true })} />
                     <InputMask label="CEP" mask="99999-999" onChange={(e) => setValue("endereco.cep", e.target.value)} />
-                    <InputField type="text" label="Cidade:" {...register("endereco.cidade" , { required: true })} />
+                    <InputField type="text" label="Cidade:" {...register("endereco.cidade", { required: true })} />
                     <InputField type="text" label="Bairro:" {...register("endereco.bairro")} />
                     <InputField type="text" label="Rua:" {...register("endereco.rua")} />
                     <InputField type="text" label="Número:" {...register("endereco.numero")} />

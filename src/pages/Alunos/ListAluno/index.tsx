@@ -11,6 +11,7 @@ import { GrUpdate } from "react-icons/gr";
 import SelectField from "../../../components/Selects";
 import { darkTheme } from "../../../themes";
 import { MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { showAlert } from "../../../utils/showAlert";
 
 // Tipos e constantes auxiliares
 type StatusKey = keyof typeof statusOptions;
@@ -100,16 +101,28 @@ function AlunosList() {
       return;
     }
 
-    try {
-      await api.put(`/alunos/transferir/${aluno.id_aluno}`, {
-        turma_id: Number(turmaTransferencia),
-      });
-      toast.success("Aluno transferido com sucesso!");
-      closeModals();
-      fetchAlunos();
-    } catch (error: any) {
-      handleApiError(error, "Erro ao transferir aluno");
-    }
+    showAlert({
+      title: "Confirmar Transferência",
+      text: "Tem certeza que deseja transferir o aluno para a nova turma?",
+      icon: "question",
+      showCancel: true,
+      confirmText: "Sim, transferir",
+      cancelText: "Cancelar",
+      confirmColor: "#28a745",
+      cancelColor: "#dc3545",
+      onConfirm: async () => {
+        try {
+          await api.put(`/alunos/transferir/${aluno.id_aluno}`, {
+            turma_id: Number(turmaTransferencia),
+          });
+          toast.success("Aluno transferido com sucesso!");
+          closeModals();
+          fetchAlunos();
+        } catch (error: any) {
+          handleApiError(error, "Erro ao transferir aluno");
+        }
+      },
+    });
   };
 
   const handleUpdateStatus = async () => {
@@ -261,12 +274,16 @@ function AlunosList() {
         <Modal onClose={closeModals} title="Detalhes do Aluno">
           <StudentDetails aluno={modalState.aluno} />
           <Options>
-            <button onClick={() => setModalState((prev) => ({ ...prev, transfer: prev.aluno }))}>
-              <BiTransferAlt />
-            </button>
-            <button onClick={() => setModalState((prev) => ({ ...prev, status: prev.aluno }))}>
-              <GrUpdate />
-            </button>
+            {modalState.aluno.status_matricula != "N" && (
+              <>
+                <button onClick={() => setModalState((prev) => ({ ...prev, transfer: prev.aluno }))}>
+                  <BiTransferAlt />
+                </button>
+                <button onClick={() => setModalState((prev) => ({ ...prev, status: prev.aluno }))}>
+                  <GrUpdate />
+                </button>
+              </>
+            )}
             <button onClick={() => handleDeleteStudent(Number(modalState.aluno?.id_aluno))}>
               <FaTrashAlt color="red" />
             </button>

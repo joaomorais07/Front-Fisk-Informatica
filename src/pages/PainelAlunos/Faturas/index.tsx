@@ -68,6 +68,7 @@ const FaturaAlunoPage: React.FC = () => {
     const fetchFaturas = async () => {
       try {
         const response = await api.get(`/alunos/buscar-fatura/${user?.dados.id}`);
+        console.log(response.data.assinaturas)
         setAssinaturas(response.data.assinaturas || []);
 
         // Initialize all groups as collapsed (showing only first 2 parcels)
@@ -190,7 +191,7 @@ const FaturaAlunoPage: React.FC = () => {
                   </TableHeader>
                   {parcelasParaExibir.map((parcela) => (
                     <TableRow key={parcela.id}>
-                      <TableCell>
+                      <TableCell data-label="Parcela">
                         {parcela.parcela_numero}/{parcela.total_parcelas}
                       </TableCell>
                       <DueDateCell status={parcela.status}>{formatarData(parcela.vencimento)}</DueDateCell>

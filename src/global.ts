@@ -125,6 +125,14 @@ export const GlobalStyle = createGlobalStyle`
   a {
     -webkit-tap-highlight-color: transparent; 
   }
+
+  .custom-swal-center {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+  }
 `;
 
 export const GlobalContainer = styled.div`
