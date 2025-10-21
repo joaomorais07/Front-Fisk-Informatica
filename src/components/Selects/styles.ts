@@ -39,7 +39,7 @@ export const StyledSelectField = styled.select`
   cursor: pointer;
 
   &:focus {
-    border: 1px solid ${darkTheme.colors.secundary};
+    border: 1px solid ${darkTheme.colors.secondary};
   }
 
   /* Estiliza as opções */

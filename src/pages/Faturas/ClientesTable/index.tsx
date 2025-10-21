@@ -24,6 +24,8 @@ import Modal from "../../../components/Modal/modal";
 import Button from "../../../components/Button";
 import GeneralLoading from "../../../components/GeneralLoading";
 import { FiInfo } from "react-icons/fi";
+import Swal from "sweetalert2";
+import "../../../utils/SwalFire.css";
 
 interface ClientesTableProps {
   busca: string;
@@ -160,6 +162,33 @@ function ClientesTable({ busca, setBusca }: ClientesTableProps) {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const registrarPagamentoDinheiro = async (idParcela: number) => {
+    try {
+      const result = await Swal.fire({
+        title: "Confirmar Pagamento?",
+        text: "Tem certeza que deseja marcar esta parcela como PAGA em dinheiro?",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, confirmar",
+        cancelButtonText: "Cancelar",
+        customClass: {
+            popup: "SmalFireStyle",
+          },
+        allowOutsideClick: false,
+      });
+
+      if (!result.isConfirmed) return;
+
+      await api.post(`/clientes-asaas/parcelas/${idParcela}/receber_dinheiro`);
+      toast.success("Parcela registrada como paga.");
+      setSelectedParcela(null); // fecha modal
+    } catch (error) {
+      console.error(error);
+      toast.error("Não foi possível registrar o pagamento.");
     }
   };
 
@@ -512,16 +541,20 @@ function ClientesTable({ busca, setBusca }: ClientesTableProps) {
               </div>
             )}
 
-            {selectedParcela.url_boleto_pdf && (
+            {(selectedParcela.url_boleto_pdf || selectedParcela.url_fatura) && (
               <div className="payment-section">
-                <Button onClick={() => window.open(selectedParcela.url_boleto_pdf!, "_blank")}>Baixar Boleto</Button>
+                {selectedParcela.url_boleto_pdf && (
+                  <Button onClick={() => window.open(selectedParcela.url_boleto_pdf!, "_blank")}>Baixar Boleto</Button>
+                )}
+                {selectedParcela.url_fatura && (
+                  <Button onClick={() => window.open(selectedParcela.url_fatura!, "_blank")}>Fatura Online</Button>
+                )}
               </div>
             )}
-            {selectedParcela.url_fatura && (
-              <div className="payment-section">
-                <Button onClick={() => window.open(selectedParcela.url_fatura!, "_blank")}>Fatura Online</Button>
-              </div>
-            )}
+
+            <Button style={{ backgroundColor: "#28a745" }} onClick={() => registrarPagamentoDinheiro(selectedParcela.id)}>
+              Registrar como pago
+            </Button>
           </PagamentoModalContent>
         </Modal>
       )}

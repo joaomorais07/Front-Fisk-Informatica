@@ -6,7 +6,7 @@ interface ConteinerCadastroProps {
 }
 
 export const ConteinerCadastro = styled.div<ConteinerCadastroProps>`
-  border: 1px solid ${darkTheme.colors.secundary};
+  border: 1px solid ${darkTheme.colors.secondary};
   display: ${(props) => (props.isOpen ? "grid" : "none")};
   position: fixed;
   top: 53%;
@@ -50,7 +50,7 @@ export const CadastroTitle = styled.h2`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${darkTheme.colors.secundary};
+  color: ${darkTheme.colors.secondary};
 `;
 
 export const DivContainer = styled.div`

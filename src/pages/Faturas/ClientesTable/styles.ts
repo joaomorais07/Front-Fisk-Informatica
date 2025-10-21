@@ -23,7 +23,7 @@ export const Tabela = styled.table`
 
   thead th {
     padding: 1rem 1.5rem;
-    background-color: ${({ theme }) => theme.colors.secundary};
+    background-color: ${({ theme }) => theme.colors.secondary};
     color: white;
     text-align: left;
     font-weight: 600;
@@ -32,7 +32,7 @@ export const Tabela = styled.table`
     top: 0;
   }
   th {
-    background: ${darkTheme.colors.secundary};
+    background: ${darkTheme.colors.secondary};
     color: white;
   }
 
@@ -101,7 +101,7 @@ export const Tabela = styled.table`
 `;
 
 export const PageButton = styled.button<PageButtonProps>`
-  background-color: ${({ active, theme }) => (active ? theme.colors.secundary : theme.colors.backgroundSecondary || "#f8f9fa")};
+  background-color: ${({ active, theme }) => (active ? theme.colors.secondary : theme.colors.backgroundSecondary || "#f8f9fa")};
   color: ${({ active, theme }) => (active ? "white" : theme.colors.text || "#495057")};
   padding: 0.5rem 0.9rem;
   margin: 0 0.15rem;
@@ -142,7 +142,7 @@ export const Options = styled.div`
   gap: 0.6rem;
 
   button {
-    background: ${({ theme }) => theme.colors.secundary || "#2ecc71"};
+    background: ${({ theme }) => theme.colors.secondary || "#2ecc71"};
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -317,7 +317,7 @@ export const FilterOption = styled.div<{ active?: boolean }>`
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
-  background-color: ${({ active, theme }) => (active ? theme.colors.secundary || "#3498db" : "transparent")};
+  background-color: ${({ active, theme }) => (active ? theme.colors.secondary || "#3498db" : "transparent")};
   color: ${({ active }) => (active ? "white" : "#666")};
   transition: all 0.2s;
   font-weight: ${({ active }) => (active ? "600" : "500")};
@@ -460,7 +460,7 @@ export const PagamentoModalContent = styled.div`
     text-align: center;
     
     strong {
-      color: ${({ theme }) => theme.colors.secundary || "#3498db"};
+      color: ${({ theme }) => theme.colors.secondary || "#3498db"};
       font-weight: 600;
       font-size: 1.1rem;
     }

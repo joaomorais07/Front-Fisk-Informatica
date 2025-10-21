@@ -1,4 +1,3 @@
-
 import { maskCPF, maskEmail, maskName } from "../../../utils/masks";
 import { InputContainer } from "./style";
 import { MutableRefObject, useState } from "react";
@@ -11,10 +10,22 @@ type InputProps = {
   type?: string;
   placeholder?: string;
   error?: string;
+  style?: React.CSSProperties;
+  variant?: "primary" | "secondary";
 };
 
 function Input(props: InputProps) {
-  const { id, label, textRef, mask, type, placeholder, error } = props;
+  const {
+    id,
+    style,
+    label,
+    textRef,
+    mask,
+    type,
+    placeholder,
+    error,
+    variant = "primary",
+  } = props;
 
   const [text, setText] = useState("");
 
@@ -22,27 +33,25 @@ function Input(props: InputProps) {
     switch (mask) {
       case "name":
         textRef.current = maskName(event.target.value);
-        setText(textRef.current);
         break;
       case "email":
         textRef.current = maskEmail(event.target.value);
-        setText(textRef.current);
         break;
       case "cpf":
         textRef.current = maskCPF(event.target.value);
-        setText(textRef.current);
         break;
       default:
         textRef.current = event.target.value;
-        setText(textRef.current);
         break;
     }
+    setText(textRef.current);
   }
 
   return (
-    <InputContainer>
+    <InputContainer variant={variant}>
       <label htmlFor={id}>{label}</label>
       <input
+        style={style}
         id={id}
         type={type || "text"}
         value={text}

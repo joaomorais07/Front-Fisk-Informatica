@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import AlunosList from "./ListAluno";
 import { SearchInput } from "../../components/Inputs/InputSearch";
 import Swal from "sweetalert2";
-import { showAlert } from "../../utils/showAlert";
+import "../../utils/SwalFire.css";
 
 function AlunosPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -177,70 +177,75 @@ function AlunosPage() {
         setBusca("");
         setIsMatriculaOpen(false);
 
-        showAlert({
-          title: "Cadastro Criado",
+        Swal.fire({
+          title: "<strong>Cadastro Criado</strong>",
           html: `
-      <p><strong>Tipo de Usuário:</strong> ${tipo_usuario}</p>
-      <p><strong>CPF:</strong> ${cpf}</p>
-      <p><strong>Senha:</strong> 
-        <span id="senhaTexto" style="font-weight:bold; color:#d62828;">${senha}</span>
-      </p>
-      <div style="display: flex; justify-content: center; margin-top: 10px;">
-        <button id="copiarSenhaBtn" style="
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 4px 10px;
-          font-size: 13px;
-          background-color: #eeeeee;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          cursor: pointer;
-        ">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-            fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round"
-            viewBox="0 0 24 24">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-          </svg>
-          Copiar
-        </button>
-      </div>
-      <p style="margin-top: 20px; color: #ff0000;">
-        <em>Importante: anote esta senha com segurança. Ela não será exibida novamente!</em>
-      </p>
-    `,
-          icon: "info",
-          confirmText: "Entendi",
-          confirmColor: "#006eff",
-          customRender: () => {
-            const btn = document.getElementById("copiarSenhaBtn");
-            const senhaText = document.getElementById("senhaTexto")?.textContent;
-
-            btn?.addEventListener("click", () => {
-              if (senhaText) {
-                navigator.clipboard.writeText(senhaText).then(() => {
-                  btn.innerHTML = `
+          <p><strong>Tipo de Usuário:</strong> ${tipo_usuario}</p>
+          <p><strong>CPF:</strong> ${cpf}</p>
+          <p><strong>Senha:</strong> 
+            <span id="senhaTexto" style="font-weight:bold; color:#d62828;">${senha}</span>
+          </p>
+          <div style="display: flex; justify-content: center; margin-top: 10px;">
+            <button id="copiarSenhaBtn" style="
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              padding: 4px 10px;
+              font-size: 13px;
+              background-color: #eeeeee;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              cursor: pointer;
+            ">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                fill="none" stroke="green" stroke-width="2"
+                fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round"
                 viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"/>
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
               </svg>
-              Copiado
-            `;
+              Copiar
+            </button>
+          </div>
+          <p style="margin-top: 20px; color: #ff0000;">
+            <em>Importante: anote esta senha com segurança. Ela não será exibida novamente!</em>
+          </p>
+        `,
+          icon: "info",
+          confirmButtonText: "Entendi",
+          confirmButtonColor: "#006eff",
+          allowOutsideClick: false,
+          customClass: {
+            popup: "SmalFireStyle",
+          },
+          width: 430,
+          didRender: () => {
+            const btn = document.getElementById("copiarSenhaBtn");
+            const senha = document.getElementById("senhaTexto")?.textContent;
+
+            btn?.addEventListener("click", () => {
+              if (senha) {
+                navigator.clipboard.writeText(senha).then(() => {
+                  btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+              fill="none" stroke="green" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"
+              viewBox="0 0 24 24">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            Copiado
+          `;
                   setTimeout(() => {
                     btn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                  fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round"
-                  viewBox="0 0 24 24">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                </svg>
-                Copiar
-              `;
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Copiar
+            `;
                   }, 3000);
                 });
               }
@@ -351,7 +356,7 @@ function AlunosPage() {
                 </ContainerInput>
 
                 <div className="DivBotom">
-                  <Button style={{ backgroundColor: darkTheme.colors.secundary }}>Salvar</Button>
+                  <Button style={{ backgroundColor: darkTheme.colors.secondary }}>Salvar</Button>
                 </div>
               </FormContainer>
             </FormProvider>
@@ -400,7 +405,7 @@ function AlunosPage() {
                 </SelectField>
 
                 <div className="DivBotom">
-                  <Button style={{ backgroundColor: darkTheme.colors.secundary, marginTop: "10px" }}>Matricular</Button>
+                  <Button style={{ backgroundColor: darkTheme.colors.secondary, marginTop: "10px" }}>Matricular</Button>
                 </div>
               </form>
             </FormProvider>

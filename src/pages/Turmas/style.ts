@@ -12,7 +12,7 @@ export const ContainerAluno = styled.div`
 `;
 
 export const HeaderAluno = styled.header`
-  background-color: ${darkTheme.colors.secundary};
+  background-color: ${darkTheme.colors.secondary};
   padding: 20px;
   color: white;
   text-align: center;
@@ -35,7 +35,7 @@ export const ActionButton = styled.button`
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background-color: ${darkTheme.colors.secundary};
+  background-color: ${darkTheme.colors.secondary};
   color: white;
   border: none;
   border-radius: 8px;
@@ -43,7 +43,7 @@ export const ActionButton = styled.button`
   font-size: 14px;
 
   &:hover {
-    background-color: ${darkTheme.colors.secundary};
+    background-color: ${darkTheme.colors.secondary};
   }
 
   svg {
@@ -100,7 +100,7 @@ export const ContainerInput = styled.div`
 
 export const DivSecao = styled.div`
   padding: 16px;
-  border-top: 3px solid ${darkTheme.colors.secundary}; /* Destaque visual para cada seção */
+  border-top: 3px solid ${darkTheme.colors.secondary}; /* Destaque visual para cada seção */
   position: relative; /* Necessário para o título flutuante */
 
   h1 {
@@ -110,7 +110,7 @@ export const DivSecao = styled.div`
     font-size: 16px;
     font-weight: 600;
     background: #f8f9fa;
-    color: ${darkTheme.colors.secundary};
+    color: ${darkTheme.colors.secondary};
     padding: 0 8px;
   }
 

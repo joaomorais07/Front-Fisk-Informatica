@@ -47,8 +47,9 @@ export const AuthFormLink = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  gap: 8px;
-  font-size: 14px;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
 
   a {
     font-size: 14px;
@@ -88,7 +89,7 @@ export const UserSelector = styled.div`
   margin-bottom: 16px;
 
   .DivAdm {
-    background-color: ${darkTheme.colors.secundary};
+    background-color: ${darkTheme.colors.secondary};
     margin: auto;
     border-radius: 4px;
     padding: 8px 16px;

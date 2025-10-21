@@ -52,7 +52,7 @@ export const Tabela = styled.table`
   }
 
   th {
-    background: ${darkTheme.colors.secundary};
+    background: ${darkTheme.colors.secondary};
     color: white;
   }
 
@@ -148,7 +148,7 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PageButton = styled.button<{ active?: boolean }>`
-  background-color: ${({ active }) => (active ? darkTheme.colors.secundary : "#e0e0e0")};
+  background-color: ${({ active }) => (active ? darkTheme.colors.secondary : "#e0e0e0")};
   color: ${({ active }) => (active ? "white" : "#333")};
   border: none;
   padding: 8px 12px;
@@ -161,7 +161,7 @@ export const PageButton = styled.button<{ active?: boolean }>`
   justify-content: center;
 
   &:hover {
-    background-color: ${({ active }) => (active ? darkTheme.colors.secundary : "#ccc")};
+    background-color: ${({ active }) => (active ? darkTheme.colors.secondary : "#ccc")};
   }
 
   &:disabled {
@@ -199,7 +199,7 @@ export const Options = styled.div`
   display: flex;
   justify-content: center;
   gap: 16px;
-  border-top: 1px solid ${darkTheme.colors.secundary};
+  border-top: 1px solid ${darkTheme.colors.secondary};
   z-index: 10;
 
   button {

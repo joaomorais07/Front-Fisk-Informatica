@@ -77,7 +77,7 @@ export const NavLink = styled(Link)<{ $isActive: boolean; $userType?: string }>`
   $isActive 
       ? ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary
+        : theme.colors.secondary
       : theme.colors.text};
   text-decoration: none;
   font-weight: 500;
@@ -93,7 +93,7 @@ export const NavLink = styled(Link)<{ $isActive: boolean; $userType?: string }>`
     color: ${({ theme, $userType }) => 
       ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary};
+        : theme.colors.secondary};
   }
 
   &::after {
@@ -106,7 +106,7 @@ export const NavLink = styled(Link)<{ $isActive: boolean; $userType?: string }>`
     background-color: ${({ theme, $userType }) => 
       ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary};
+        : theme.colors.secondary};
     transition: width 0.2s ease;
   }
 `;
@@ -146,7 +146,7 @@ export const MobileNavLink = styled(Link)<{ $isActive: boolean, $userType?: stri
   $isActive 
       ? ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary
+        : theme.colors.secondary
       : theme.colors.text};
   text-decoration: none;
   font-weight: 500;
@@ -162,7 +162,7 @@ export const MobileNavLink = styled(Link)<{ $isActive: boolean, $userType?: stri
     color: ${({ theme, $userType }) => 
       ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary};
+        : theme.colors.secondary};
   }
 
   &::after {
@@ -175,7 +175,7 @@ export const MobileNavLink = styled(Link)<{ $isActive: boolean, $userType?: stri
     background-color: ${({ theme, $userType }) => 
       ["aluno", "responsavel"].includes($userType ?? "") 
         ? theme.colors.primary 
-        : theme.colors.secundary};
+        : theme.colors.secondary};
     transition: width 0.2s ease;
   }
 `;
@@ -202,7 +202,7 @@ export const UserAvatar = styled.img<{ $userType?: string }>`
   border: 2px solid ${({ theme, $userType }) => 
     ["aluno", "responsavel"].includes($userType ?? "") 
       ? theme.colors.primary 
-      : theme.colors.secundary};
+      : theme.colors.secondary};
 `;
 
 

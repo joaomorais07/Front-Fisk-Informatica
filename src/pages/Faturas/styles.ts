@@ -41,8 +41,8 @@ export const TabSwitcherContainer = styled.div`
 
 export const TabButton = styled.button<TabButtonProps>`
   padding: 0.75rem 2rem;
-  background: ${({ active, theme }) => (active ? theme.colors.secundary || "#3498db" : "transparent")};
-  color: ${({ active, theme }) => (active ? "white" : theme.colors.secundary || "#6c757d")};
+  background: ${({ active, theme }) => (active ? theme.colors.secondary || "#3498db" : "transparent")};
+  color: ${({ active, theme }) => (active ? "white" : theme.colors.secondary || "#6c757d")};
   border: none;
   border-radius: 8px;
   cursor: pointer;

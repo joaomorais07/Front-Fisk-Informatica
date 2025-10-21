@@ -126,7 +126,7 @@ function FuncionarioPage() {
                 </ContainerInput>
 
                 <div className="DivBotom">
-                  <Button style={{ backgroundColor: `${darkTheme.colors.secundary}` }}>Salvar</Button>
+                  <Button style={{ backgroundColor: `${darkTheme.colors.secondary}` }}>Salvar</Button>
                 </div>
               </FormContainer>
             </FormProvider>

@@ -21,8 +21,8 @@ export const DivTopo = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
-  padding: 20px;
+  gap: 10px;
+  padding: 20px 20px 0 20px;
   
   img{
     width: 120px;

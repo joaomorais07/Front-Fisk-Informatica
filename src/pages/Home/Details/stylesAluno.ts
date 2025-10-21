@@ -197,7 +197,7 @@ export const SectionTitle = styled.h2`
   margin-bottom: 16px;
 
   svg {
-    color: ${darkTheme.colors.secundary};
+    color: ${darkTheme.colors.secondary};
   }
 `;
 

@@ -101,7 +101,7 @@ export const SectionTitle = styled.h2`
   margin-bottom: 16px;
 
   svg {
-    color: ${darkTheme.colors.secundary};
+    color: ${darkTheme.colors.secondary};
   }
 `;
 
@@ -116,7 +116,7 @@ export const AvisoCard = styled.div`
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid ${darkTheme.colors.secundary};
+  border-left: 4px solid ${darkTheme.colors.secondary};
   transition: all 0.3s ease;
 
   &:hover {

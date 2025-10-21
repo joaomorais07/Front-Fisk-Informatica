@@ -22,7 +22,7 @@ export const Tabela = styled.table`
 
   thead th {
     padding: 1rem 1.5rem;
-    background-color: ${({ theme }) => theme.colors.secundary || "#3498db"};
+    background-color: ${({ theme }) => theme.colors.secondary || "#3498db"};
     color: white;
     text-align: left;
     font-weight: 600;
@@ -130,7 +130,7 @@ export const ErrorContainer = styled.div`
 
 
 export const PageButton = styled.button<PageButtonProps>`
-  background-color: ${({ active, theme }) => (active ? theme.colors.secundary : theme.colors.backgroundSecondary || "#f8f9fa")};
+  background-color: ${({ active, theme }) => (active ? theme.colors.secondary : theme.colors.backgroundSecondary || "#f8f9fa")};
   color: ${({ active, theme }) => (active ? "white" : theme.colors.text || "#495057")};
   padding: 0.5rem 0.9rem;
   margin: 0 0.15rem;
@@ -171,7 +171,7 @@ export const Options = styled.div`
   gap: 0.6rem;
 
   button {
-    background: ${({ theme }) => theme.colors.secundary || "#3498db"};
+    background: ${({ theme }) => theme.colors.secondary || "#3498db"};
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -239,13 +239,13 @@ export const DataSection = styled.div`
   padding: 1.25rem;
   border-radius: 8px;
   gap: 0.75rem;
-  border-left: 3px solid ${({ theme }) => theme.colors.secundary || "#3498db"};
+  border-left: 3px solid ${({ theme }) => theme.colors.secondary || "#3498db"};
 `;
 
 export const SectionTitle = styled.h4`
   display: flex;
   align-items: center;
-  color: ${({ theme }) => theme.colors.secundary || "#3498db"};
+  color: ${({ theme }) => theme.colors.secondary || "#3498db"};
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
 `;

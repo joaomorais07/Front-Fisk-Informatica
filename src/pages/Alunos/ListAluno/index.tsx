@@ -11,7 +11,6 @@ import { GrUpdate } from "react-icons/gr";
 import SelectField from "../../../components/Selects";
 import { darkTheme } from "../../../themes";
 import { MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { showAlert } from "../../../utils/showAlert";
 
 // Tipos e constantes auxiliares
 type StatusKey = keyof typeof statusOptions;
@@ -101,28 +100,16 @@ function AlunosList() {
       return;
     }
 
-    showAlert({
-      title: "Confirmar Transferência",
-      text: "Tem certeza que deseja transferir o aluno para a nova turma?",
-      icon: "question",
-      showCancel: true,
-      confirmText: "Sim, transferir",
-      cancelText: "Cancelar",
-      confirmColor: "#28a745",
-      cancelColor: "#dc3545",
-      onConfirm: async () => {
-        try {
-          await api.put(`/alunos/transferir/${aluno.id_aluno}`, {
-            turma_id: Number(turmaTransferencia),
-          });
-          toast.success("Aluno transferido com sucesso!");
-          closeModals();
-          fetchAlunos();
-        } catch (error: any) {
-          handleApiError(error, "Erro ao transferir aluno");
-        }
-      },
-    });
+    try {
+      await api.put(`/alunos/transferir/${aluno.id_aluno}`, {
+        turma_id: Number(turmaTransferencia),
+      });
+      toast.success("Aluno transferido com sucesso!");
+      closeModals();
+      fetchAlunos();
+    } catch (error: any) {
+      handleApiError(error, "Erro ao transferir aluno");
+    }
   };
 
   const handleUpdateStatus = async () => {
@@ -274,7 +261,7 @@ function AlunosList() {
         <Modal onClose={closeModals} title="Detalhes do Aluno">
           <StudentDetails aluno={modalState.aluno} />
           <Options>
-            {modalState.aluno.status_matricula != "N" && (
+            {modalState.aluno.status_matricula !== "N" && (
               <>
                 <button onClick={() => setModalState((prev) => ({ ...prev, transfer: prev.aluno }))}>
                   <BiTransferAlt />
@@ -284,6 +271,7 @@ function AlunosList() {
                 </button>
               </>
             )}
+
             <button onClick={() => handleDeleteStudent(Number(modalState.aluno?.id_aluno))}>
               <FaTrashAlt color="red" />
             </button>
@@ -311,7 +299,7 @@ function AlunosList() {
             </SelectField>
           </DivStatus>
           <Options>
-            <button style={{ backgroundColor: darkTheme.colors.secundary }} onClick={handleUpdateStatus}>
+            <button style={{ backgroundColor: darkTheme.colors.secondary }} onClick={handleUpdateStatus}>
               Salvar
             </button>
           </Options>
@@ -343,7 +331,7 @@ function AlunosList() {
             </SelectField>
           </DivStatus>
           <Options>
-            <button style={{ backgroundColor: darkTheme.colors.secundary }} onClick={handleTransferStudent}>
+            <button style={{ backgroundColor: darkTheme.colors.secondary }} onClick={handleTransferStudent}>
               Transferir
             </button>
           </Options>

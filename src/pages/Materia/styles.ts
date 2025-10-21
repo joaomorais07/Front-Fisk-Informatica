@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const HeaderMateria = styled.header`
-  background-color: ${darkTheme.colors.secundary};
+  background-color: ${darkTheme.colors.secondary};
   padding: 20px;
   text-align: center;
   border-radius: 8px;

@@ -5,7 +5,7 @@ export const darkTheme = {
     text: "#000",
     textAlt: "#ffffff",
     primary: "#e2001a",
-    secundary: "#00a9a4",
+    secondary: "#00a9a4",
     hover:  "#a58d04",
     error: "#FF4A4A",
     primaryAdmin: "#005cd4",

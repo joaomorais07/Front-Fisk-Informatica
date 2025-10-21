@@ -29,9 +29,9 @@ export const GeneralLoadingContainer = styled.div<GeneralLoadingContainerProps>`
     width: ${({ size }) => `${size}px`} !important;
     height: ${({ size }) => `${size}px`} !important;
     border-radius: 50% !important;
-    border-top: 6px solid ${({ color, theme }) => color ?? theme.colors.secundary};
+    border-top: 6px solid ${({ color, theme }) => color ?? theme.colors.secondary};
     border-right: 6px solid
-      ${({ color, theme }) => color ?? theme.colors.secundary};
+      ${({ color, theme }) => color ?? theme.colors.secondary};
     border-bottom: 7px solid transparent;
 
     animation: ${spin} 1s linear infinite;

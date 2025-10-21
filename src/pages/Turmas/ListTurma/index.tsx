@@ -208,7 +208,7 @@ function TurmasList() {
             <button
               onClick={handleStatusUpdate}
               disabled={!novoStatus}
-              style={{ backgroundColor: darkTheme.colors.secundary }}
+              style={{ backgroundColor: darkTheme.colors.secondary }}
             >
               Salvar
             </button>

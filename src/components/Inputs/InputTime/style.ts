@@ -49,7 +49,7 @@ export const StyledInput = styled.input`
   transition: all 0.3s ease-in-out;
 
   &:focus {
-    border-color: ${darkTheme.colors.secundary};
+    border-color: ${darkTheme.colors.secondary};
     background: #fff;
   }
 
@@ -57,6 +57,6 @@ export const StyledInput = styled.input`
     top: 0;
     font-size: 0.85rem;
     font-weight: 600;
-    color: ${darkTheme.colors.secundary};
+    color: ${darkTheme.colors.secondary};
   }
 `;

@@ -133,19 +133,20 @@ export function SignInFormAdm() {
   return (
     <AuthFormContainer>
       <AuthForm onSubmit={handleSubmit} autoComplete="off">
-        <h1>Entrar - Administração</h1>
+        <h1 style={{ color: darkTheme.colors.secondary }}>Entrar - Administração</h1>
         <p>Área administrativa da Escola</p>
 
         <UserSelector>
           <div className="DivAdm">
-            Administração <Icon name="Aluno" size={20} color="#cc00ff" />
+            Administração <Icon name="Aluno" size={20}/>
           </div>
         </UserSelector>
 
-        <Input id="sign-in-cpf-adm" label="CPF" placeholder="Digite seu CPF" textRef={cpfRef} mask="cpf" />
+        <Input variant="secondary" id="sign-in-cpf-adm" label="CPF" placeholder="Digite seu CPF" textRef={cpfRef} mask="cpf" />
 
         <DivInputPassword>
           <Input
+            variant="secondary"
             id="sign-in-password-adm"
             type={showPassword ? "text" : "password"}
             label="Senha"
@@ -162,7 +163,7 @@ export function SignInFormAdm() {
         </Button>
 
         <AuthFormLink>
-          <Link to="/login">Área do Usuário</Link>
+          <Link to="/login" style={{ color: darkTheme.colors.secondary }}>Área do Usuário</Link>
         </AuthFormLink>
       </AuthForm>
     </AuthFormContainer>

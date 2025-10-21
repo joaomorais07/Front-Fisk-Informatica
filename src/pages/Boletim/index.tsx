@@ -195,11 +195,11 @@ const BoletimPage: React.FC = () => {
 
   const houveMudancas = () => {
     if (!turmaSelecionada) return false;
-    const materiasVinculadas = materiasTurma.map(m => m.id_materia);
+    const materiasVinculadas = materiasTurma.map((m) => m.id_materia);
     return (
       materiasSelecionadas.length !== materiasVinculadas.length ||
-      !materiasSelecionadas.every(id => materiasVinculadas.includes(id)) ||
-      !materiasVinculadas.every(id => materiasSelecionadas.includes(id))
+      !materiasSelecionadas.every((id) => materiasVinculadas.includes(id)) ||
+      !materiasVinculadas.every((id) => materiasSelecionadas.includes(id))
     );
   };
 
@@ -219,7 +219,7 @@ const BoletimPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setMateriasSelecionadas(materiasTurma.map(m => m.id_materia));
+    setMateriasSelecionadas(materiasTurma.map((m) => m.id_materia));
   };
 
   return (
@@ -228,7 +228,7 @@ const BoletimPage: React.FC = () => {
       <Container>
         <HeaderBoletim>Registro de Notas</HeaderBoletim>
 
-        <SelectField style={{maxWidth:"350px"}} onChange={(e) => setTurmaSelecionada(Number(e.target.value))} defaultValue="">
+        <SelectField style={{ maxWidth: "350px" }} onChange={(e) => setTurmaSelecionada(Number(e.target.value))} defaultValue="">
           <option value="" disabled>
             Selecione a Turma
           </option>
@@ -241,7 +241,7 @@ const BoletimPage: React.FC = () => {
 
         {turmaSelecionada && (
           <ContainerNotas>
-            <Button style={{maxWidth:"350px"}} type="button" onClick={() => setShowModal(true)}>
+            <Button style={{ maxWidth: "350px" }} type="button" onClick={() => setShowModal(true)}>
               Adicionar Matérias
             </Button>
 
@@ -308,11 +308,23 @@ const BoletimPage: React.FC = () => {
                 </tbody>
               </Table>
               <ButtonController>
-                <Button type="button" onClick={() => dispatch({ type: "ATIVAR_ADICIONAR" })}>
+                <Button
+                  type="button"
+                  onClick={() => dispatch({ type: "ATIVAR_ADICIONAR" })}
+                  style={{
+                    backgroundColor: modo.modoAdicionar ? "#e5b100" : "",
+                  }}
+                >
                   {modo.modoAdicionar ? "Cancelar Adição" : "Adicionar Notas"}
                 </Button>
 
-                <Button type="button" onClick={() => dispatch({ type: "ATIVAR_EDITAR" })}>
+                <Button
+                  type="button"
+                  onClick={() => dispatch({ type: "ATIVAR_EDITAR" })}
+                  style={{
+                    backgroundColor: modo.modoEditar ? "#e5b100" : "",
+                  }}
+                >
                   {modo.modoEditar ? "Cancelar Edição" : "Editar Notas"}
                 </Button>
 
@@ -347,16 +359,18 @@ const BoletimPage: React.FC = () => {
                         checked={materiasSelecionadas.includes(materia.id_materia)}
                         onChange={() => handleMateriaCheckbox(materia.id_materia)}
                       />
-                      <label className="checkboxLabel" htmlFor={`materia-${materia.id_materia}`}>{materia.nome}</label>
+                      <label className="checkboxLabel" htmlFor={`materia-${materia.id_materia}`}>
+                        {materia.nome}
+                      </label>
                     </CheckboxItem>
                   ))}
                 </CheckboxList>
-                <Button 
+                <Button
                   onClick={handleVincularMaterias}
                   disabled={!houveMudancas()}
                   style={{
-                    backgroundColor: houveMudancas() ? '' : 'gray',
-                    cursor: houveMudancas() ? 'pointer' : 'not-allowed'
+                    backgroundColor: houveMudancas() ? "" : "gray",
+                    cursor: houveMudancas() ? "pointer" : "not-allowed",
                   }}
                 >
                   Salvar
